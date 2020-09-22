@@ -16,7 +16,7 @@ function App() {
                 <Navbar/>
                 <section className="content">
                     <Route path='/profile' exact component={Profile}/>
-                    <Route path='/dialogs' exact component={Dialogs}/>
+                    <Route path='/dialogs' component={Dialogs}/>
                 </section>
             </div>
         </BrowserRouter>

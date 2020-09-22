@@ -1,7 +1,7 @@
 import React from 'react'
 import Post from './Post/Post'
 
-const MyPosts = () => {
+const ProfilePosts = () => {
     return (
         <>
             <h2>Мои записи</h2>
@@ -17,4 +17,4 @@ const MyPosts = () => {
     )
 }
 
-export default MyPosts
+export default ProfilePosts
