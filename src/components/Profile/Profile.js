@@ -3,11 +3,11 @@ import './Profile.sass'
 import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 
-const Profile = () => {
+const Profile = (props) => {
     return (
         <>
             <ProfileInfo/>
-            <ProfilePosts/>
+            <ProfilePosts posts={props.posts}/>
         </>
     )
 }

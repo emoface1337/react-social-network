@@ -8,6 +8,21 @@ import Profile from './components/Profile/Profile'
 import Dialogs from './components/Dialogs/Dialogs'
 
 
+let state = {
+    messages: [
+        { id: 1, text: 'hi 1' },
+        { id: 2, text: 'hi 2' }
+    ],
+    posts: [
+        { id: 1, text: 'post 1' },
+        { id: 1, text: 'post 2' }
+    ],
+    dialogs: [
+        { id: 1, name: 'Anya' },
+        { id: 2, name: 'Vasya' }
+    ]
+}
+
 function App() {
     return (
         <BrowserRouter>
@@ -15,8 +30,8 @@ function App() {
                 <Header/>
                 <Navbar/>
                 <section className="content">
-                    <Route path='/profile' exact component={Profile}/>
-                    <Route path='/dialogs' component={Dialogs}/>
+                    <Route path='/profile' exact render={() => <Profile posts={state.posts}/>}/>
+                    <Route path='/dialogs' render={() => <Dialogs dialogs={state.dialogs} messages={state.messages}/>}/>
                 </section>
             </div>
         </BrowserRouter>
