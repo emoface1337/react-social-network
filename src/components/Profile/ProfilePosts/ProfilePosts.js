@@ -1,12 +1,14 @@
 import React from 'react'
 import Post from './Post/Post'
+import { connect } from 'react-redux'
+import { addPost } from '../../../store/actions/profileActions'
 
 const ProfilePosts = (props) => {
 
     const newPostTextArea = React.createRef()
 
     const onAddPost = () => {
-        console.log(newPostTextArea.current.value)
+        props.addPost(newPostTextArea.current.value)
     }
 
     return (
@@ -27,4 +29,13 @@ const ProfilePosts = (props) => {
     )
 }
 
-export default ProfilePosts
+const mapStateToProps = state => ({
+    posts: state.profileReducer.posts
+})
+
+const mapDispatchToProps = dispatch => ({
+    addPost: postText => dispatch(addPost(postText))
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePosts)

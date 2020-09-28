@@ -3,6 +3,7 @@ import React from 'react'
 import './Dialogs.sass'
 import DialogUser from './DialogUser/DialogUser'
 import DialogMessage from './DialogMessage/DialogMessage'
+import { connect } from 'react-redux'
 
 const Dialogs = (props) => {
     return (
@@ -25,4 +26,9 @@ const Dialogs = (props) => {
     )
 }
 
-export default Dialogs
+const mapStateToProps = state => ({
+    dialogs: state.dialogsReducer.dialogs,
+    messages: state.dialogsReducer.messages
+})
+
+export default connect(mapStateToProps, null)(Dialogs)

@@ -1,0 +1,31 @@
+.content__users
+  padding: 0 150px
+
+  & .user:not(:last-child)
+    margin-bottom: 25px
+
+.user
+  display: flex
+  border: 1px solid gray
+
+  &__left
+    display: flex
+    flex-direction: column
+
+    &-avatar
+      width: 100px
+      height: 100px
+      border-radius: 100%
+
+  &__center
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    width: 100%
+
+    &-fullname
+      font-weight: bold
+
+  &__right
+    width: 200px
+

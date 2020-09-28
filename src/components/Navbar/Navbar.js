@@ -11,6 +11,7 @@ const Navbar = () => {
                 <li className="nav__list-link"><NavLink activeClassName="active" to="/dialogs">Сообщения</NavLink></li>
                 <li className="nav__list-link"><NavLink activeClassName="active" to="/news">Новости</NavLink></li>
                 <li className="nav__list-link"><NavLink activeClassName="active" to="/music">Музыка</NavLink></li>
+                <li className="nav__list-link"><NavLink activeClassName="active" to="/users">Пользователи</NavLink></li>
                 <li className="nav__list-link"><NavLink activeClassName="active" to="/settings">Настройки</NavLink></li>
             </ul>
         </nav>
