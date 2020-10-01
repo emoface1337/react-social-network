@@ -1,5 +1,7 @@
 .content__users
-  padding: 0 150px
+  &-pages
+    & .selected
+      font-weight: bold
 
   & .user:not(:last-child)
     margin-bottom: 25px
@@ -23,7 +25,7 @@
     justify-content: space-between
     width: 100%
 
-    &-fullname
+    &-name
       font-weight: bold
 
   &__right

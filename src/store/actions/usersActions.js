@@ -10,7 +10,16 @@ export const unfollowUser = userId => ({
     payload: userId
 })
 
-export const setUsers = users => ({
+export const setUsers = data => ({
     type: types.users.SET_USERS,
-    payload: users
+    payload: data
+})
+
+export const setCurrentPage = page => ({
+    type: types.users.SET_CURRENT_PAGE,
+    payload: page
+})
+
+export const setLoading = () => ({
+    type: types.users.SET_LOADING
 })
