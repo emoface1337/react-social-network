@@ -15,7 +15,7 @@ const App = () => {
                 <Header/>
                 <Navbar/>
                 <section className="content">
-                    <Route path='/profile' exact render={() => <Profile/>}/>
+                    <Route path='/profile/:userId' render={() => <Profile/>}/>
                     <Route path='/dialogs' render={() => <Dialogs/>}/>
                     <Route path='/users' render={() => <Users/>}/>
                 </section>

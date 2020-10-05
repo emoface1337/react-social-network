@@ -6,6 +6,7 @@ import { followUser, setCurrentPage, setLoading, setUsers, unfollowUser } from '
 import './Users.sass'
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
 import { NavLink } from 'react-router-dom'
+import Loader from '../../Loader/Loader'
 
 const Users = (props) => {
 
@@ -16,24 +17,17 @@ const Users = (props) => {
         pages.push(i)
     }
 
-    useEffect(() => {
-        props.setLoading()
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${props.currentPage}&count=${props.pageSize}`)
-            .then(({ data }) => props.setUsers(data))
-    }, [props.currentPage])
-
-
     return (
         <div className="content__users">
             {
-                props.isLoading ? <span>Загрузка...</span> :
+                props.isLoading ? <Loader/> :
                     <>
                         <div className="content__users-pages">
                             {
                                 pages.map(pageNum => (
-                                    <span
-                                        onClick={() => props.setCurrentPage(pageNum)}
-                                        className={props.currentPage === pageNum && 'selected'}>{pageNum}</span>
+                                    <span key={pageNum}
+                                          onClick={() => props.setCurrentPage(pageNum)}
+                                          className={props.currentPage === pageNum ? 'selected' : ''}>{pageNum}</span>
                                 ))
                             }
                         </div>
@@ -71,18 +65,16 @@ const Users = (props) => {
 }
 
 const UsersContainer = (props) => {
-    return <Users
-        users={props.users}
-        follow={props.followUser}
-        unfollow={props.unfollowUser}
-        setUsers={props.setUsers}
-        pageSize={props.pageSize}
-        totalUsersCount={props.totalUsersCount}
-        currentPage={props.currentPage}
-        setCurrentPage={props.setCurrentPage}
-        setLoading={props.setLoading}
-        isLoading={props.isLoading}
-    />
+
+    const { currentPage, setUsers, pageSize, setLoading } = props
+
+    useEffect(() => {
+        setLoading()
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
+            .then(({ data }) => setUsers(data))
+    }, [currentPage, setUsers, pageSize, setLoading])
+
+    return <Users {...props}/>
 }
 
 const mapStateToProps = state => ({

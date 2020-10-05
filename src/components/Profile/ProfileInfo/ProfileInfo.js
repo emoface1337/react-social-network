@@ -1,16 +1,18 @@
 import React from 'react'
+import Loader from '../../../Loader/Loader'
 
-const ProfileInfo = () => {
+const ProfileInfo = ({ profile }) => {
+    if (!profile) {
+        return <Loader/>
+    }
     return (
         <div className="content__profile">
             <div className="content__profile-avatar">
-                <img src="https://dayzrussia.com/wiki/images/f/f7/Faer_ava.jpg" alt="Аватар"/>
+                <img src={profile.photos.large} alt="Аватар"/>
             </div>
             <div className="content__profile-info">
-                <h2>Никита Б.</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, fugit.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, fugit.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, fugit.</p>
+                <h2>{profile.fullName}</h2>
+                <p>{profile.aboutMe}</p>
             </div>
         </div>
     )

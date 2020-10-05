@@ -1,6 +1,7 @@
 import { types } from '../types'
 
 const initialState = {
+    profile: null,
     posts: [
         { id: 1, text: 'Пост 1' },
         { id: 2, text: 'Пост 2' }
@@ -17,6 +18,12 @@ export const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 posts: [...state.posts, newPost]
+            }
+        }
+        case types.profile.SET_USER_PROFILE: {
+            return {
+                ...state,
+                profile: action.payload
             }
         }
         default:
