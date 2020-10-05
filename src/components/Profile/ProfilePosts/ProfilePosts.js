@@ -11,8 +11,6 @@ import { SuccessButton } from '../../Custom/SuccessButton'
 const useStyles = makeStyles(theme => ({
     profileAddPostTextArea: {
         width: '100%',
-        backgroundColor: theme.palette.background.default,
-        color: theme.palette.primary.contrastText,
         border: '1px solid white',
         borderRadius: '5px',
         padding: '5px 5px'

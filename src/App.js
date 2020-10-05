@@ -1,17 +1,15 @@
 import React from 'react'
 import { Route, BrowserRouter } from 'react-router-dom'
 
-import { makeStyles } from '@material-ui/styles'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Container from '@material-ui/core/Container'
+import { makeStyles, Grid, Box, CssBaseline, Container } from '@material-ui/core'
 
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import Profile from './components/Profile/Profile'
 import Dialogs from './components/Dialogs/Dialogs'
 import Users from './components/Users/Users'
+
+import './App.module.sass'
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -28,10 +26,8 @@ const App = () => {
         <BrowserRouter>
             <CssBaseline/>
             <Container maxWidth={'md'}>
+                <Header/>
                 <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                        <Header/>
-                    </Grid>
                     <Grid item xs={2}>
                         <Navbar/>
                     </Grid>

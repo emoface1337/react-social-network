@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom'
 import Pagination from '@material-ui/lab/Pagination'
 import Loader from '../../Loader/Loader'
 
-import { Box, Grid, Button, makeStyles} from '@material-ui/core'
+import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
 
@@ -45,14 +45,22 @@ const useStyles = makeStyles(() => ({
 
 const Users = (props) => {
 
+    const { currentPage, setUsers, pageSize, isLoading, setLoading, totalUsersCount, setCurrentPage } = props
+
+    useLayoutEffect(() => {
+        setLoading()
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
+            .then(({ data }) => setUsers(data))
+    }, [currentPage, setUsers, pageSize, setLoading])
+
     const classes = useStyles()
 
-    const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
+    const pagesCount = Math.ceil(totalUsersCount / pageSize)
 
-    const [pageNum, setPageNum] = React.useState(1)
+    const [pageNum, setPageNumState] = React.useState(1)
     const handleChange = (event, value) => {
-        setPageNum(value)
-        props.setCurrentPage(value)
+        setPageNumState(value)
+        setCurrentPage(value)
     }
 
     const handleFollow = (event, userId, followed) => {
@@ -60,53 +68,40 @@ const Users = (props) => {
         followed ? props.unfollowUser(userId) : props.followUser(userId)
     }
 
+    if (isLoading)
+        return <Loader/>
+
     return (
         <Box>
             <Box className={classes.usersPagination}>
                 <Pagination variant="outlined" count={pagesCount} page={pageNum} onChange={handleChange}/>
             </Box>
-            {
-                props.isLoading ? <Loader/> :
-                    <Grid container spacing={3}>
-                        {
-                            props.users.map(user => (
-                                <Grid item xs={3} key={user.id}>
-                                    <NavLink to={'/profile/' + user.id} className={classes.user}>
-                                        <img
-                                            src={user.photos.small !== null ? user.photos.small : defaultUserAvatar}
-                                            alt={user.name} className={`${classes.user}__photo`}/>
-                                        {
-                                            user.followed ?
-                                                <Button variant="outlined" color="secondary" size="small"
-                                                        className={`${classes.user}__button`}
-                                                        onClick={event => handleFollow(event, user.id, user.followed)}>Отписаться</Button>
-                                                :
-                                                <Button variant="outlined" color="secondary" size="small"
-                                                        className={`${classes.user}__button`}
-                                                        onClick={event => handleFollow(event, user.id, user.followed)}>Подписаться</Button>
-                                        }
-                                        <Box className={`${classes.user}__name`}>{user.name}</Box>
-                                    </NavLink>
-                                </Grid>
-                            ))
-                        }
-                    </Grid>
-            }
+            <Grid container spacing={3}>
+                {
+                    props.users.map(user => (
+                        <Grid item xs={3} key={user.id}>
+                            <NavLink to={'/profile/' + user.id} className={classes.user}>
+                                <img
+                                    src={user.photos.small !== null ? user.photos.small : defaultUserAvatar}
+                                    alt={user.name} className={`${classes.user}__photo`}/>
+                                {
+                                    user.followed ?
+                                        <Button variant="contained" color="secondary" size="small"
+                                                className={`${classes.user}__button`}
+                                                onClick={event => handleFollow(event, user.id, user.followed)}>Отписаться</Button>
+                                        :
+                                        <Button variant="contained" color="secondary" size="small"
+                                                className={`${classes.user}__button`}
+                                                onClick={event => handleFollow(event, user.id, user.followed)}>Подписаться</Button>
+                                }
+                                <Box className={`${classes.user}__name`}>{user.name}</Box>
+                            </NavLink>
+                        </Grid>
+                    ))
+                }
+            </Grid>
         </Box>
     )
-}
-
-const UsersContainer = (props) => {
-
-    const { currentPage, setUsers, pageSize, setLoading } = props
-
-    useEffect(() => {
-        setLoading()
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
-            .then(({ data }) => setUsers(data))
-    }, [currentPage, setUsers, pageSize, setLoading])
-
-    return <Users {...props}/>
 }
 
 const mapStateToProps = state => ({
@@ -125,4 +120,4 @@ const mapDispatchToProps = {
     setLoading
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

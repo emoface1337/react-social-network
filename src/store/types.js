@@ -12,5 +12,9 @@ export const types = {
     profile: {
         ADD_POST: 'ADD_POST',
         SET_USER_PROFILE: 'SET_USER_PROFILE'
+    },
+    auth: {
+        SET_USER_DATA: 'AUTH/SET_USER_DATA',
+        SET_LOADING: 'AUTH/SET_LOADING'
     }
 }

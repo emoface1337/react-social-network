@@ -52,6 +52,7 @@ export const usersReducer = (state = initialState, action) => {
         case types.users.SET_LOADING:{
             return {
                 ...state,
+                users: [],
                 isLoading: true
             }
         }
