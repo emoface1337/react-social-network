@@ -1,11 +1,18 @@
 import React from 'react'
 
+import {Divider, Avatar, ListItemText, ListItemAvatar, ListItem} from '@material-ui/core'
+
 const Post = (props) => {
     return (
-        <div className="content__profile-post">
-            <img src="https://dayzrussia.com/wiki/images/f/f7/Faer_ava.jpg" alt="Аватар"/>
-            <h3>{props.text}</h3>
-        </div>
+        <>
+            <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                    <Avatar alt="Remy Sharp" src="https://dayzrussia.com/wiki/images/f/f7/Faer_ava.jpg"/>
+                </ListItemAvatar>
+                <ListItemText primary={props.text}/>
+            </ListItem>
+            <Divider variant="inset" component="li"/>
+        </>
     )
 }
 

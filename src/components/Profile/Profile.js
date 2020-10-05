@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
-import { connect } from 'react-redux'
 
-import './Profile.sass'
+import { connect } from 'react-redux'
+import { setUserProfile } from '../../store/actions/profileActions'
+
+import { withRouter } from 'react-router-dom'
 
 import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
-import { setUserProfile } from '../../store/actions/profileActions'
-import { withRouter } from 'react-router-dom'
 
 const Profile = (props) => {
     return (
