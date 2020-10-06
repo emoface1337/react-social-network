@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -11,6 +11,7 @@ import Loader from '../../Loader/Loader'
 import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
+import { setTitle } from '../../utils'
 
 const useStyles = makeStyles(() => ({
     user: {
@@ -33,7 +34,10 @@ const useStyles = makeStyles(() => ({
             marginBottom: '15px'
         },
         '&__name': {
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            maxWidth: '135px'
         }
     },
     usersPagination: {
@@ -46,6 +50,10 @@ const useStyles = makeStyles(() => ({
 const Users = (props) => {
 
     const { currentPage, setUsers, pageSize, isLoading, setLoading, totalUsersCount, setCurrentPage } = props
+
+    useEffect(() => {
+        return setTitle('Пользователи')
+    }, [])
 
     useLayoutEffect(() => {
         setLoading()
