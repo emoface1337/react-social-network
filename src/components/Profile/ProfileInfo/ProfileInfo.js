@@ -38,7 +38,9 @@ const ProfileInfo = ({ profile }) => {
         <Box className={classes.profile}>
             <Box className={classes.profilePhoto}>
                 {
-                    profile.photos.large ? <img src={profile.photos.large} alt={profile.fullName}/> :
+                    profile.photos.large ?
+                        <img src={profile.photos.large} alt={profile.fullName}/>
+                        :
                         <PersonIcon className={classes.profileIcon}/>
                 }
 

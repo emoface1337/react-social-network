@@ -49,7 +49,7 @@ const useStyles = makeStyles(() => ({
 
 const Users = (props) => {
 
-    const { currentPage, setUsers, pageSize, isLoading, setLoading, totalUsersCount, setCurrentPage } = props
+    const { users, followUser, unfollowUser, currentPage, setUsers, pageSize, isLoading, setLoading, totalUsersCount, setCurrentPage } = props
 
     useEffect(() => {
         return setTitle('Пользователи')
@@ -57,7 +57,9 @@ const Users = (props) => {
 
     useLayoutEffect(() => {
         setLoading()
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`, {
+            withCredentials: true
+        })
             .then(({ data }) => setUsers(data))
     }, [currentPage, setUsers, pageSize, setLoading])
 
@@ -73,7 +75,28 @@ const Users = (props) => {
 
     const handleFollow = (event, userId, followed) => {
         event.preventDefault()
-        followed ? props.unfollowUser(userId) : props.followUser(userId)
+        followed ?
+            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {
+                withCredentials: true,
+                headers: {
+                    'API-KEY': 'e4e32d41-becd-4647-8361-0e75d46dbd75'
+                }
+            }).then(response => {
+                if (response.data.resultCode === 0)
+                    unfollowUser(userId)
+            })
+
+            :
+            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {}, {
+                withCredentials: true,
+                headers: {
+                    'API-KEY': 'e4e32d41-becd-4647-8361-0e75d46dbd75'
+                }
+            }).then(response => {
+                if (response.data.resultCode === 0)
+                    followUser(userId)
+            })
+
     }
 
     if (isLoading)
@@ -86,7 +109,7 @@ const Users = (props) => {
             </Box>
             <Grid container spacing={3}>
                 {
-                    props.users.map(user => (
+                    users.map(user => (
                         <Grid item xs={3} key={user.id}>
                             <NavLink to={'/profile/' + user.id} className={classes.user}>
                                 <img
