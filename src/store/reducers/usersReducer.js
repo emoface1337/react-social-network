@@ -3,7 +3,7 @@ import { types } from '../types'
 const initialState = {
     users: [],
     pageSize: 12,
-    totalUsersCount: 20,
+    totalUsersCount: 0,
     currentPage: 1,
     isLoading: false
 }

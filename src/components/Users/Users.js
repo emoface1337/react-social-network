@@ -1,6 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
 
 import { followUser, setCurrentPage, setLoading, setUsers, unfollowUser } from '../../store/actions/usersActions'
 
@@ -12,6 +11,7 @@ import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
 import { setTitle } from '../../utils'
+import { usersAPI } from '../../api/api'
 
 const useStyles = makeStyles(() => ({
     user: {
@@ -57,10 +57,7 @@ const Users = (props) => {
 
     useLayoutEffect(() => {
         setLoading()
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`, {
-            withCredentials: true
-        })
-            .then(({ data }) => setUsers(data))
+        usersAPI.getUsers(currentPage, pageSize).then(({ data }) => setUsers(data))
     }, [currentPage, setUsers, pageSize, setLoading])
 
     const classes = useStyles()
@@ -76,27 +73,17 @@ const Users = (props) => {
     const handleFollow = (event, userId, followed) => {
         event.preventDefault()
         followed ?
-            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {
-                withCredentials: true,
-                headers: {
-                    'API-KEY': 'e4e32d41-becd-4647-8361-0e75d46dbd75'
-                }
-            }).then(response => {
-                if (response.data.resultCode === 0)
-                    unfollowUser(userId)
-            })
-
+            usersAPI.unfollowUser(userId)
+                .then(({ data }) => {
+                    if (data.resultCode === 0)
+                        unfollowUser(userId)
+                })
             :
-            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`, {}, {
-                withCredentials: true,
-                headers: {
-                    'API-KEY': 'e4e32d41-becd-4647-8361-0e75d46dbd75'
-                }
-            }).then(response => {
-                if (response.data.resultCode === 0)
-                    followUser(userId)
-            })
-
+            usersAPI.followUser(userId)
+                .then(({ data }) => {
+                    if (data.resultCode === 0)
+                        followUser(userId)
+                })
     }
 
     if (isLoading)

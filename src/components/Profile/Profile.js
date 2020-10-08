@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import axios from 'axios'
 
 import { connect } from 'react-redux'
 import { setUserProfile } from '../../store/actions/profileActions'
@@ -8,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 
 import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
+import { profileAPI } from '../../api/api'
 
 const Profile = (props) => {
     return (
@@ -25,7 +25,7 @@ const ProfileContainer = (props) => {
     const userId = props.match.params.userId
 
     useEffect(() => {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
+        profileAPI.getUserProfile(userId)
             .then(({ data }) => setUserProfile(data))
     }, [setUserProfile, userId])
 

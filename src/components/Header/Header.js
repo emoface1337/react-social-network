@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 import { makeStyles, AppBar, Toolbar, Typography } from '@material-ui/core'
 import { setAuthUserData } from '../../store/actions/authActions'
 import { connect } from 'react-redux'
+import { authAPI } from '../../api/api'
 
 const useStyles = makeStyles(() => ({
     header: {
@@ -28,9 +28,7 @@ const Header = ({ setAuthUserData }) => {
     const classes = useStyles()
 
     useEffect(() => {
-            axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-                withCredentials: true
-            }).then(({ data }) => {
+            authAPI.auth().then(({ data }) => {
                     if (data.resultCode === 0) {
                         setAuthUserData(data)
                     }
