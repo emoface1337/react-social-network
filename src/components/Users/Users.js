@@ -1,7 +1,14 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 
-import { followUser, setCurrentPage, setLoading, setUsers, unfollowUser } from '../../store/actions/usersActions'
+import {
+    followUser,
+    setCurrentPage,
+    setFollowPending,
+    setLoading,
+    setUsers,
+    unfollowUser
+} from '../../store/actions/usersActions'
 
 import { NavLink } from 'react-router-dom'
 import Pagination from '@material-ui/lab/Pagination'
@@ -12,6 +19,7 @@ import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
 import { setTitle } from '../../utils'
 import { usersAPI } from '../../api/api'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles(() => ({
     user: {
@@ -30,9 +38,6 @@ const useStyles = makeStyles(() => ({
             borderRadius: '100%',
             marginBottom: '15px'
         },
-        '&__button': {
-            marginBottom: '15px'
-        },
         '&__name': {
             fontWeight: 'bold',
             textOverflow: 'ellipsis',
@@ -44,12 +49,23 @@ const useStyles = makeStyles(() => ({
         marginBottom: '20px',
         display: 'flex',
         justifyContent: 'center'
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12
+    },
+    wrapper: {
+        position: 'relative',
+        marginBottom: '15px'
     }
 }))
 
 const Users = (props) => {
 
-    const { users, followUser, unfollowUser, currentPage, setUsers, pageSize, isLoading, setLoading, totalUsersCount, setCurrentPage } = props
+    const { users, followUser, unfollowUser, currentPage, setUsers, pageSize, isLoading, isFollowPending, setFollowPending, setLoading, totalUsersCount, setCurrentPage } = props
 
     useEffect(() => {
         return setTitle('Пользователи')
@@ -72,17 +88,22 @@ const Users = (props) => {
 
     const handleFollow = (event, userId, followed) => {
         event.preventDefault()
+        setFollowPending(true, userId)
         followed ?
             usersAPI.unfollowUser(userId)
                 .then(({ data }) => {
-                    if (data.resultCode === 0)
+                    if (data.resultCode === 0) {
                         unfollowUser(userId)
+                        setFollowPending(false, userId)
+                    }
                 })
             :
             usersAPI.followUser(userId)
                 .then(({ data }) => {
-                    if (data.resultCode === 0)
+                    if (data.resultCode === 0) {
                         followUser(userId)
+                        setFollowPending(false, userId)
+                    }
                 })
     }
 
@@ -104,13 +125,21 @@ const Users = (props) => {
                                     alt={user.name} className={`${classes.user}__photo`}/>
                                 {
                                     user.followed ?
-                                        <Button variant="contained" color="secondary" size="small"
-                                                className={`${classes.user}__button`}
-                                                onClick={event => handleFollow(event, user.id, user.followed)}>Отписаться</Button>
+                                        <div className={classes.wrapper}>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                    disabled={isFollowPending.some(id => id === user.id)}
+                                                    onClick={event => handleFollow(event, user.id, user.followed)}>Отписаться</Button>
+                                            {isFollowPending.some(id => id === user.id) &&
+                                            <CircularProgress size={24} className={classes.buttonProgress}/>}
+                                        </div>
                                         :
-                                        <Button variant="contained" color="secondary" size="small"
-                                                className={`${classes.user}__button`}
-                                                onClick={event => handleFollow(event, user.id, user.followed)}>Подписаться</Button>
+                                        <div className={classes.wrapper}>
+                                            <Button variant="contained" color="secondary" size="small"
+                                                    disabled={isFollowPending.some(id => id === user.id)}
+                                                    onClick={event => handleFollow(event, user.id, user.followed)}>Подписаться</Button>
+                                            {isFollowPending.some(id => id === user.id) &&
+                                            <CircularProgress size={22} className={classes.buttonProgress}/>}
+                                        </div>
                                 }
                                 <Box className={`${classes.user}__name`}>{user.name}</Box>
                             </NavLink>
@@ -127,7 +156,8 @@ const mapStateToProps = state => ({
     pageSize: state.usersReducer.pageSize,
     totalUsersCount: state.usersReducer.totalUsersCount,
     currentPage: state.usersReducer.currentPage,
-    isLoading: state.usersReducer.isLoading
+    isLoading: state.usersReducer.isLoading,
+    isFollowPending: state.usersReducer.isFollowPending
 })
 
 const mapDispatchToProps = {
@@ -135,7 +165,8 @@ const mapDispatchToProps = {
     unfollowUser,
     setUsers,
     setCurrentPage,
-    setLoading
+    setLoading,
+    setFollowPending
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users)

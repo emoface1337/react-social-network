@@ -23,3 +23,11 @@ export const setCurrentPage = page => ({
 export const setLoading = () => ({
     type: types.users.SET_LOADING
 })
+
+export const setFollowPending = (isPending, userId) => ({
+    type: types.users.SET_FOLLOW_PENDING,
+    payload: {
+        isPending,
+        userId
+    }
+})

@@ -5,7 +5,8 @@ const initialState = {
     pageSize: 12,
     totalUsersCount: 0,
     currentPage: 1,
-    isLoading: false
+    isLoading: false,
+    isFollowPending: []
 }
 
 export const usersReducer = (state = initialState, action) => {
@@ -42,6 +43,7 @@ export const usersReducer = (state = initialState, action) => {
                 isLoading: false
             }
         }
+
         case types.users.SET_CURRENT_PAGE: {
             return {
                 ...state,
@@ -49,13 +51,23 @@ export const usersReducer = (state = initialState, action) => {
             }
         }
 
-        case types.users.SET_LOADING:{
+        case types.users.SET_LOADING: {
             return {
                 ...state,
                 users: [],
                 isLoading: true
             }
         }
+
+        case types.users.SET_FOLLOW_PENDING: {
+            return {
+                ...state,
+                isFollowPending: action.payload.isPending
+                    ? [...state.isFollowPending, action.payload.userId]
+                    : state.isFollowPending.filter(id => id !== action.payload.userId)
+            }
+        }
+
         default:
             return state
     }
