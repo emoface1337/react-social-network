@@ -3,7 +3,7 @@ import React from 'react'
 import PersonIcon from '@material-ui/icons/Person'
 import { Typography, Box, makeStyles } from '@material-ui/core'
 
-import Loader from '../../Loader/Loader'
+import ProfileStatus from '../ProfileStatus/ProfileStatus'
 
 const useStyles = makeStyles(() => ({
     profile: {
@@ -26,13 +26,11 @@ const useStyles = makeStyles(() => ({
     profileInfo: {}
 }))
 
-const ProfileInfo = ({ profile }) => {
+const ProfileInfo = (props) => {
+
+    const { profile, status, updateUserStatus } = props
 
     const classes = useStyles()
-
-    if (!profile) {
-        return <Loader/>
-    }
 
     return (
         <Box className={classes.profile}>
@@ -48,6 +46,7 @@ const ProfileInfo = ({ profile }) => {
             <Box className={classes.profileInfo}>
                 <Typography variant="h4">{profile.fullName}</Typography>
                 <Typography paragraph={true}>{profile.aboutMe}</Typography>
+                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
             </Box>
         </Box>
     )

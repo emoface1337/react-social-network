@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { connect } from 'react-redux'
-import { getUserProfile } from '../../store/actions/profileActions'
+import { getUserProfile, getUserStatus, updateUserStatus } from '../../store/actions/profileActions'
 
 import { withRouter } from 'react-router-dom'
 
@@ -9,11 +9,13 @@ import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import withAuthRedirect from '../../hoc/withAuthRedirect'
 import { compose } from 'redux'
+import Loader from '../Loader/Loader'
 
 const Profile = (props) => {
+
     return (
         <>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo profile={props.profile} status={props.status} updateUserStatus={props.updateUserStatus}/>
             <ProfilePosts/>
         </>
     )
@@ -21,25 +23,35 @@ const Profile = (props) => {
 
 const ProfileContainer = (props) => {
 
-    const { getUserProfile } = props
+    const { getUserProfile, currentUserId, isLoading, getUserStatus, profile } = props
 
-    const userId = props.match.params.userId
+    let userId = props.match.params.userId
+
+    if (!userId) {
+        userId = currentUserId
+    }
 
     useEffect(() => {
         getUserProfile(userId)
-    }, [getUserProfile, userId])
+        getUserStatus(userId)
+    }, [getUserProfile, getUserStatus, userId])
 
-    return <Profile {...props}/>
+    if (isLoading) return <Loader/>
+    return profile && <Profile {...props}/>
 }
 
 const mapStateToProps = state => ({
-    profile: state.profileReducer.profile
+    profile: state.profileReducer.profile,
+    currentUserId: state.authReducer.userId,
+    status: state.profileReducer.status,
+    isLoading: state.profileReducer.isLoading
 })
 
 const mapDispatchToProps = {
-    getUserProfile
+    getUserProfile,
+    updateUserStatus,
+    getUserStatus
 }
-
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),

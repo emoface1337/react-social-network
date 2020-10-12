@@ -34,7 +34,7 @@ const App = () => {
                     </Grid>
                     <Grid item xs={10}>
                         <Box component={'section'} className={classes.content}>
-                            <Route path='/profile/:userId' render={() => <Profile/>}/>
+                            <Route path='/profile/:userId?' render={() => <Profile/>}/>
                             <Route path='/dialogs' render={() => <Dialogs/>}/>
                             <Route path='/users' render={() => <Users/>}/>
                             <Route path='/login' exact render={() => <Login/>}/>

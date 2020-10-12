@@ -11,7 +11,33 @@ const setUserProfile = profile => ({
     payload: profile
 })
 
+const setUserStatus = status => ({
+    type: types.profile.SET_USER_STATUS,
+    payload: status
+})
+
+const setUserIsLoading = () => ({
+    type: types.profile.SET_USER_IS_LOADING
+})
+
 export const getUserProfile = userId => dispatch => {
-    profileAPI.getUserProfile(userId)
-        .then(({ data }) => dispatch(setUserProfile(data)))
+    dispatch(setUserIsLoading())
+    profileAPI.getProfile(userId)
+        .then(({ data }) => {
+            dispatch(setUserProfile(data))
+        })
+}
+
+export const getUserStatus = userId => dispatch => {
+    profileAPI.getStatus(userId).then(({ data }) => {
+        dispatch(setUserStatus(data))
+    })
+}
+
+export const updateUserStatus = (newStatus) => dispatch => {
+    profileAPI.updateStatus(newStatus).then(({ data }) => {
+        if (data.resultCode === 0) {
+            dispatch(setUserStatus(newStatus))
+        }
+    })
 }

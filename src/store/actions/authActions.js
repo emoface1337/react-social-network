@@ -8,7 +8,7 @@ const setIsLoading = loading => ({
 
 const setAuthUserData = data => ({
     type: types.auth.SET_USER_DATA,
-    payload: { id: data.id, email: data.data.email, login: data.data.login }
+    payload: { id: data.data.id, email: data.data.email, login: data.data.login }
 })
 
 export const getAuthUserData = () => dispatch => {

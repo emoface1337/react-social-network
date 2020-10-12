@@ -5,7 +5,9 @@ const initialState = {
     posts: [
         { id: 1, text: 'Пост 1' },
         { id: 2, text: 'Пост 2' }
-    ]
+    ],
+    status: '',
+    isLoading: false
 }
 
 export const profileReducer = (state = initialState, action) => {
@@ -20,12 +22,29 @@ export const profileReducer = (state = initialState, action) => {
                 posts: [...state.posts, newPost]
             }
         }
+
         case types.profile.SET_USER_PROFILE: {
             return {
                 ...state,
-                profile: action.payload
+                profile: action.payload,
+                isLoading: false
             }
         }
+
+        case types.profile.SET_USER_STATUS : {
+            return {
+                ...state,
+                status: action.payload
+            }
+        }
+
+        case types.profile.SET_USER_IS_LOADING: {
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+
         default:
             return state
     }
