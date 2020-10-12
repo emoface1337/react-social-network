@@ -11,18 +11,22 @@ const initialState = {
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.auth.SET_USER_DATA: {
+
+            const { id, email, login } = action.payload
             return {
                 ...state,
-                ...action.payload,
+                userId: id,
+                email,
+                login,
                 isLoading: false,
                 isAuth: true
             }
         }
 
-        case types.auth.SET_LOADING: {
+        case types.auth.SET_IS_LOADING: {
             return {
                 ...state,
-                isLoading: true
+                isLoading: action.payload
             }
         }
 

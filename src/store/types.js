@@ -16,6 +16,6 @@ export const types = {
     },
     auth: {
         SET_USER_DATA: 'AUTH/SET_USER_DATA',
-        SET_LOADING: 'AUTH/SET_LOADING'
+        SET_IS_LOADING: 'AUTH/SET_IS_LOADING'
     }
 }

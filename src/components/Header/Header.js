@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { makeStyles, AppBar, Toolbar, Typography } from '@material-ui/core'
-import { setAuthUserData } from '../../store/actions/authActions'
+import { getAuthUserData } from '../../store/actions/authActions'
 import { connect } from 'react-redux'
-// import { authAPI } from '../../api/api'
 
 const useStyles = makeStyles(() => ({
     header: {
@@ -23,19 +22,13 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const Header = ({ setAuthUserData }) => {
+const Header = ({ getAuthUserData }) => {
 
     const classes = useStyles()
 
-    // useEffect(() => {
-    //         authAPI.auth().then(({ data }) => {
-    //                 if (data.resultCode === 0) {
-    //                     setAuthUserData(data)
-    //                 }
-    //             }
-    //         )
-    //     }, [setAuthUserData]
-    // )
+    useEffect(() => {
+        getAuthUserData()
+    }, [getAuthUserData])
 
     return (
         <AppBar position="sticky" className={classes.header}>
@@ -61,8 +54,4 @@ const Header = ({ setAuthUserData }) => {
     )
 }
 
-// const mapStateToProps = state => {
-//
-// }
-
-export default connect(null, { setAuthUserData })(Header)
+export default connect(null, { getAuthUserData })(Header)

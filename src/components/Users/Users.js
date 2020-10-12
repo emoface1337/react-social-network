@@ -11,7 +11,7 @@ import {
 } from '../../store/actions/usersActions'
 
 import Pagination from '@material-ui/lab/Pagination'
-import Loader from '../../Loader/Loader'
+import Loader from '../Loader/Loader'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 
@@ -61,15 +61,15 @@ const useStyles = makeStyles(() => ({
 
 const Users = (props) => {
 
-    const { users, followUser, unfollowUser, currentPage, pageSize, isLoading, isFollowPending, totalUsersCount, setCurrentPage, dispatch } = props
+    const { users, followUser, unfollowUser, currentPage, pageSize, isLoading, isFollowPending, totalUsersCount, setCurrentPage, fetchUsers} = props
 
     useEffect(() => {
         return setTitle('Пользователи')
     }, [])
 
     useLayoutEffect(() => {
-        dispatch(fetchUsers(currentPage, pageSize))
-    }, [currentPage, pageSize, dispatch])
+        fetchUsers(currentPage, pageSize)
+    }, [currentPage, pageSize, fetchUsers])
 
     const classes = useStyles()
 
@@ -78,14 +78,14 @@ const Users = (props) => {
     const [pageNum, setPageNumState] = React.useState(1)
     const handleChange = (event, value) => {
         setPageNumState(value)
-        dispatch(setCurrentPage(value))
+        setCurrentPage(value)
     }
 
     const handleFollow = (event, userId, followed) => {
         event.preventDefault()
         followed
-            ? dispatch(unfollowUser(userId))
-            : dispatch(followUser(userId))
+            ? unfollowUser(userId)
+            : followUser(userId)
     }
 
     if (isLoading)
@@ -141,12 +141,11 @@ const mapStateToProps = state => ({
     isFollowPending: state.usersReducer.isFollowPending
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = {
     followUser: followUserThunk,
     unfollowUser: unfollowUserThunk,
     setCurrentPage,
     fetchUsers,
-    dispatch
-})
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users)

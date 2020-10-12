@@ -3,7 +3,7 @@ import React from 'react'
 import PersonIcon from '@material-ui/icons/Person'
 import { Typography, Box, makeStyles } from '@material-ui/core'
 
-import Loader from '../../../Loader/Loader'
+import Loader from '../../Loader/Loader'
 
 const useStyles = makeStyles(() => ({
     profile: {

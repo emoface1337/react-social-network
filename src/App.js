@@ -2,14 +2,15 @@ import React from 'react'
 import { Route, BrowserRouter } from 'react-router-dom'
 
 import { makeStyles, Grid, Box, CssBaseline, Container } from '@material-ui/core'
+import './App.module.sass'
 
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import Profile from './components/Profile/Profile'
 import Dialogs from './components/Dialogs/Dialogs'
 import Users from './components/Users/Users'
+import Login from './components/Login/Login'
 
-import './App.module.sass'
 
 const useStyles = makeStyles(theme => ({
     content: {
@@ -36,6 +37,7 @@ const App = () => {
                             <Route path='/profile/:userId' render={() => <Profile/>}/>
                             <Route path='/dialogs' render={() => <Dialogs/>}/>
                             <Route path='/users' render={() => <Users/>}/>
+                            <Route path='/login' exact render={() => <Login/>}/>
                         </Box>
                     </Grid>
                 </Grid>
