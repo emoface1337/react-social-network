@@ -1,16 +1,17 @@
 import { types } from '../types'
+import { usersAPI } from '../../api/api'
 
-export const followUser = userId => ({
+const followUser = userId => ({
     type: types.users.FOLLOW,
     payload: userId
 })
 
-export const unfollowUser = userId => ({
+const unfollowUser = userId => ({
     type: types.users.UNFOLLOW,
     payload: userId
 })
 
-export const setUsers = data => ({
+const setUsers = data => ({
     type: types.users.SET_USERS,
     payload: data
 })
@@ -20,14 +21,41 @@ export const setCurrentPage = page => ({
     payload: page
 })
 
-export const setLoading = () => ({
+const setLoading = () => ({
     type: types.users.SET_LOADING
 })
 
-export const setFollowPending = (isPending, userId) => ({
+const setFollowPending = (isPending, userId) => ({
     type: types.users.SET_FOLLOW_PENDING,
     payload: {
         isPending,
         userId
     }
 })
+
+export const fetchUsers = (currentPage, pageSize) => dispatch => {
+    dispatch(setLoading())
+    usersAPI.getUsers(currentPage, pageSize).then(({ data }) => dispatch(setUsers(data)))
+}
+
+export const followUserThunk = (userId) => dispatch => {
+    dispatch(setFollowPending(true, userId))
+    usersAPI.followUser(userId)
+        .then(({ data }) => {
+            if (data.resultCode === 0) {
+                dispatch(followUser(userId))
+                dispatch(setFollowPending(false, userId))
+            }
+        })
+}
+
+export const unfollowUserThunk = (userId) => dispatch => {
+    dispatch(setFollowPending(true, userId))
+    usersAPI.unfollowUser(userId)
+        .then(({ data }) => {
+            if (data.resultCode === 0) {
+                dispatch(unfollowUser(userId))
+                dispatch(setFollowPending(false, userId))
+            }
+        })
+}

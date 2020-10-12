@@ -1,25 +1,21 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import { setTitle } from '../../utils'
 
 import {
-    followUser,
+    fetchUsers,
+    followUserThunk,
     setCurrentPage,
-    setFollowPending,
-    setLoading,
-    setUsers,
-    unfollowUser
+    unfollowUserThunk
 } from '../../store/actions/usersActions'
 
-import { NavLink } from 'react-router-dom'
 import Pagination from '@material-ui/lab/Pagination'
 import Loader from '../../Loader/Loader'
-
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
-import { setTitle } from '../../utils'
-import { usersAPI } from '../../api/api'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles(() => ({
     user: {
@@ -65,16 +61,15 @@ const useStyles = makeStyles(() => ({
 
 const Users = (props) => {
 
-    const { users, followUser, unfollowUser, currentPage, setUsers, pageSize, isLoading, isFollowPending, setFollowPending, setLoading, totalUsersCount, setCurrentPage } = props
+    const { users, followUser, unfollowUser, currentPage, pageSize, isLoading, isFollowPending, totalUsersCount, setCurrentPage, dispatch } = props
 
     useEffect(() => {
         return setTitle('Пользователи')
     }, [])
 
     useLayoutEffect(() => {
-        setLoading()
-        usersAPI.getUsers(currentPage, pageSize).then(({ data }) => setUsers(data))
-    }, [currentPage, setUsers, pageSize, setLoading])
+        dispatch(fetchUsers(currentPage, pageSize))
+    }, [currentPage, pageSize, dispatch])
 
     const classes = useStyles()
 
@@ -83,28 +78,14 @@ const Users = (props) => {
     const [pageNum, setPageNumState] = React.useState(1)
     const handleChange = (event, value) => {
         setPageNumState(value)
-        setCurrentPage(value)
+        dispatch(setCurrentPage(value))
     }
 
     const handleFollow = (event, userId, followed) => {
         event.preventDefault()
-        setFollowPending(true, userId)
-        followed ?
-            usersAPI.unfollowUser(userId)
-                .then(({ data }) => {
-                    if (data.resultCode === 0) {
-                        unfollowUser(userId)
-                        setFollowPending(false, userId)
-                    }
-                })
-            :
-            usersAPI.followUser(userId)
-                .then(({ data }) => {
-                    if (data.resultCode === 0) {
-                        followUser(userId)
-                        setFollowPending(false, userId)
-                    }
-                })
+        followed
+            ? dispatch(unfollowUser(userId))
+            : dispatch(followUser(userId))
     }
 
     if (isLoading)
@@ -160,13 +141,12 @@ const mapStateToProps = state => ({
     isFollowPending: state.usersReducer.isFollowPending
 })
 
-const mapDispatchToProps = {
-    followUser,
-    unfollowUser,
-    setUsers,
+const mapDispatchToProps = dispatch => ({
+    followUser: followUserThunk,
+    unfollowUser: unfollowUserThunk,
     setCurrentPage,
-    setLoading,
-    setFollowPending
-}
+    fetchUsers,
+    dispatch
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users)

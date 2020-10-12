@@ -1,6 +1,9 @@
 import { types } from '../types'
 
-export const setAuthUserData = data => {
+export const setAuthUserData = data => dispatch => {
+
+    dispatch(setLoading())
+
     const userId = data.data.id
     const { email, login } = data.data
     return {
@@ -9,6 +12,6 @@ export const setAuthUserData = data => {
     }
 }
 
-export const setLoading = () => ({
+const setLoading = () => ({
     type: types.auth.SET_LOADING
 })
