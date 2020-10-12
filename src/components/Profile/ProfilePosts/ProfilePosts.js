@@ -6,7 +6,7 @@ import { addPost } from '../../../store/actions/profileActions'
 
 import { Box, Typography, makeStyles, TextareaAutosize, List} from '@material-ui/core'
 
-import { SuccessButton } from '../../Custom/SuccessButton'
+import { SuccessButton } from '../../../custom-components/SuccessButton'
 
 const useStyles = makeStyles(theme => ({
     profileAddPostTextArea: {

@@ -16,6 +16,8 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
+import { compose } from 'redux'
+import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 const useStyles = makeStyles(() => ({
     user: {
@@ -61,7 +63,7 @@ const useStyles = makeStyles(() => ({
 
 const Users = (props) => {
 
-    const { users, followUser, unfollowUser, currentPage, pageSize, isLoading, isFollowPending, totalUsersCount, setCurrentPage, fetchUsers} = props
+    const { users, followUser, unfollowUser, currentPage, pageSize, isLoading, isFollowPending, totalUsersCount, setCurrentPage, fetchUsers } = props
 
     useEffect(() => {
         return setTitle('Пользователи')
@@ -145,7 +147,10 @@ const mapDispatchToProps = {
     followUser: followUserThunk,
     unfollowUser: unfollowUserThunk,
     setCurrentPage,
-    fetchUsers,
+    fetchUsers
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users)
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Users)

@@ -3,10 +3,12 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getUserProfile } from '../../store/actions/profileActions'
 
-import { Redirect, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
+import withAuthRedirect from '../../hoc/withAuthRedirect'
+import { compose } from 'redux'
 
 const Profile = (props) => {
     return (
@@ -19,7 +21,7 @@ const Profile = (props) => {
 
 const ProfileContainer = (props) => {
 
-    const { getUserProfile, isAuth } = props
+    const { getUserProfile } = props
 
     const userId = props.match.params.userId
 
@@ -27,18 +29,20 @@ const ProfileContainer = (props) => {
         getUserProfile(userId)
     }, [getUserProfile, userId])
 
-    if (!isAuth) return <Redirect to='/login'/>
-
     return <Profile {...props}/>
 }
 
 const mapStateToProps = state => ({
-    profile: state.profileReducer.profile,
-    isAuth: state.authReducer.isAuth
+    profile: state.profileReducer.profile
 })
 
 const mapDispatchToProps = {
     getUserProfile
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileContainer))
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer)

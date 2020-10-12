@@ -6,6 +6,8 @@ import DialogMessage from './DialogMessage/DialogMessage'
 
 import { Box, List, makeStyles } from '@material-ui/core'
 import { Redirect } from 'react-router-dom'
+import { compose } from 'redux'
+import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 const useStyles = makeStyles(theme => ({
     dialogs: {
@@ -52,4 +54,8 @@ const mapStateToProps = state => ({
     isAuth: state.authReducer.isAuth
 })
 
-export default connect(mapStateToProps, null)(Dialogs)
+
+export default compose(
+    connect(mapStateToProps, null),
+    withAuthRedirect
+)(Dialogs)
