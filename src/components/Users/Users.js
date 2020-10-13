@@ -94,7 +94,7 @@ const Users = (props) => {
         return <Loader/>
 
     return (
-        <Box>
+        <Box style={{ padding: '20px 20px' }}>
             <Box className={classes.usersPagination}>
                 <Pagination variant="outlined" count={pagesCount} page={pageNum} onChange={handleChange}/>
             </Box>

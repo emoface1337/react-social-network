@@ -5,7 +5,6 @@ import { makeStyles, ListItem } from '@material-ui/core'
 
 const useStyles = makeStyles(() => ({
     dialogsUserLink: {
-        marginBottom: '10px',
         display: 'block',
         textDecoration: 'none',
         color: 'white',
@@ -21,9 +20,7 @@ const DialogUser = (props) => {
     const path = '/dialogs/' + props.dialog.id
 
     return (
-        <ListItem
-            button
-        >
+        <ListItem button>
             <NavLink to={path} className={classes.dialogsUserLink} activeClassName={classes.dialogsUserLink}>
                 {props.dialog.name}
             </NavLink>
