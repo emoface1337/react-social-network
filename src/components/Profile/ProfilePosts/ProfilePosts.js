@@ -2,7 +2,7 @@ import React from 'react'
 import Post from './Post/Post'
 
 import { connect } from 'react-redux'
-import { addPost } from '../../../store/actions/profileActions'
+import { addPost } from '../../../store/actions'
 
 import { Box, Typography, makeStyles, TextareaAutosize, List} from '@material-ui/core'
 
@@ -48,7 +48,7 @@ const ProfilePosts = (props) => {
 }
 
 const mapStateToProps = state => ({
-    posts: state.profileReducer.posts
+    posts: state.profile.posts
 })
 
 const mapDispatchToProps = dispatch => ({

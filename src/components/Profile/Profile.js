@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getUserProfile, getUserStatus, updateUserStatus } from '../../store/actions/profileActions'
+import { getUserProfile, getUserStatus, updateUserStatus } from '../../store/actions'
 
 import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
@@ -41,10 +41,10 @@ const ProfileContainer = (props) => {
 }
 
 const mapStateToProps = state => ({
-    profile: state.profileReducer.profile,
-    currentUserId: state.authReducer.userId,
-    status: state.profileReducer.status,
-    isLoading: state.profileReducer.isLoading
+    profile: state.profile.profile,
+    currentUserId: state.auth.userId,
+    status: state.profile.status,
+    isLoading: state.profile.isLoading
 })
 
 const mapDispatchToProps = {

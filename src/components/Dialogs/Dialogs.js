@@ -5,11 +5,9 @@ import { compose } from 'redux'
 import DialogUser from './DialogUser/DialogUser'
 import DialogMessage from './DialogMessage/DialogMessage'
 
-import { Box, Input, List, makeStyles } from '@material-ui/core'
+import { Box, List, Grid, makeStyles } from '@material-ui/core'
 
-import withAuthRedirect from '../../hoc/withAuthRedirect'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
+// import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 const useStyles = makeStyles(theme => ({
     dialogs: {
@@ -33,7 +31,7 @@ const Dialogs = ({ dialogs, messages }) => {
     const classes = useStyles()
 
     return (
-        <Grid container spacing={0} style={{ height: '50vh'}}>
+        <Grid container spacing={0} style={{ height: '50vh' }}>
             <Grid item xs={4} className={classes.gridItemLeft}>
                 <List>
                     {
@@ -51,7 +49,7 @@ const Dialogs = ({ dialogs, messages }) => {
                         ))
                     }
                 </List>
-                <Box style={{paddingLeft: '16px', paddingRight: '16px'}}>
+                <Box style={{ paddingLeft: '16px', paddingRight: '16px' }}>
                     <input type="textarea"
                            id="message"
                            placeholder="Напишите сообщение..."
@@ -69,9 +67,9 @@ const Dialogs = ({ dialogs, messages }) => {
 }
 
 const mapStateToProps = state => ({
-    dialogs: state.dialogsReducer.dialogs,
-    messages: state.dialogsReducer.messages,
-    isAuth: state.authReducer.isAuth
+    dialogs: state.dialogs.dialogs,
+    messages: state.dialogs.messages,
+    isAuth: state.auth.isAuth
 })
 
 export default compose(

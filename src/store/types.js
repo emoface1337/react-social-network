@@ -1,4 +1,4 @@
-export const types = {
+export const types = Object.freeze({
     dialogs: {
         SEND_MESSAGE: 'DIALOGS/SEND_MESSAGE'
     },
@@ -21,4 +21,4 @@ export const types = {
         SET_USER_DATA: 'AUTH/SET_USER_DATA',
         SET_IS_LOADING: 'AUTH/SET_IS_LOADING'
     }
-}
+})

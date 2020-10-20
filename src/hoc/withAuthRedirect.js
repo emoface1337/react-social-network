@@ -15,7 +15,7 @@ const withAuthRedirect = (Component) => {
 }
 
 const mapStateToProps = state => ({
-    isAuth: state.authReducer.isAuth
+    isAuth: state.auth.isAuth
 })
 
 export default withAuthRedirect

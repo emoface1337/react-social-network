@@ -1,10 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import Navbar from '../Navbar/Navbar'
-import Dialogs from '../Dialogs/Dialogs'
-import Users from '../Users/Users'
-import Profile from '../Profile/Profile'
+import { Navbar, Dialogs, Users, Profile} from '../'
 
 import { Box, makeStyles, Grid } from '@material-ui/core'
 

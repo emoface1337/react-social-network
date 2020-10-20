@@ -4,9 +4,7 @@ import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import { Grid,CssBaseline, Container } from '@material-ui/core'
 import './App.module.sass'
 
-import Header from './components/Header/Header'
-import Login from './components/Login/Login'
-import Home from './components/Home/Home'
+import { Header, Login, Home } from './components'
 
 const App = () => {
 

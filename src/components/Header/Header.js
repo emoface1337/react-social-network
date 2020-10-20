@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { makeStyles, AppBar, Toolbar, Typography, Grid } from '@material-ui/core'
-import { getAuthUserData } from '../../store/actions/authActions'
+import { getAuthUserData } from '../../store/actions'
 import { connect } from 'react-redux'
 
 const useStyles = makeStyles(() => ({

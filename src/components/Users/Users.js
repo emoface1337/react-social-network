@@ -8,12 +8,12 @@ import {
     followUserThunk,
     setCurrentPage,
     unfollowUserThunk
-} from '../../store/actions/usersActions'
+} from '../../store/actions'
 
 import Pagination from '@material-ui/lab/Pagination'
+import { Box, Grid, Button, makeStyles, CircularProgress } from '@material-ui/core'
+
 import Loader from '../Loader/Loader'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { Box, Grid, Button, makeStyles } from '@material-ui/core'
 
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
 import { compose } from 'redux'
@@ -135,12 +135,12 @@ const Users = (props) => {
 }
 
 const mapStateToProps = state => ({
-    users: state.usersReducer.users,
-    pageSize: state.usersReducer.pageSize,
-    totalUsersCount: state.usersReducer.totalUsersCount,
-    currentPage: state.usersReducer.currentPage,
-    isLoading: state.usersReducer.isLoading,
-    isFollowPending: state.usersReducer.isFollowPending
+    users: state.users.users,
+    pageSize: state.users.pageSize,
+    totalUsersCount: state.users.totalUsersCount,
+    currentPage: state.users.currentPage,
+    isLoading: state.users.isLoading,
+    isFollowPending: state.users.isFollowPending
 })
 
 const mapDispatchToProps = {
