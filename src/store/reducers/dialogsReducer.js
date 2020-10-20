@@ -1,3 +1,5 @@
+import { types } from '../types'
+
 const initialState = {
     dialogs: [
         { id: 1, name: 'Яна' },
@@ -11,6 +13,13 @@ const initialState = {
 
 export const dialogsReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case types.dialogs.SEND_MESSAGE: {
+            return {
+                ...state,
+                messages: [...state.messages, { id: Date.now(), text: action.payload }]
+            }
+        }
         default:
             return state
     }

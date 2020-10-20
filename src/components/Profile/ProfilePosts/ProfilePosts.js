@@ -2,9 +2,9 @@ import React from 'react'
 import Post from './Post/Post'
 
 import { connect } from 'react-redux'
-import { addPost } from '../../../store/actions'
+import { profileActions } from '../../../store/actions'
 
-import { Box, Typography, makeStyles, TextareaAutosize, List} from '@material-ui/core'
+import { Box, Typography, makeStyles, TextareaAutosize, List } from '@material-ui/core'
 
 import { SuccessButton } from '../../../custom-components/SuccessButton'
 
@@ -25,7 +25,9 @@ const ProfilePosts = (props) => {
     const newPostTextArea = React.createRef()
 
     const onAddPost = () => {
-        props.addPost(newPostTextArea.current.value)
+        const postText = newPostTextArea.current.value
+        if (postText !== '')
+            props.addPost(newPostTextArea.current.value)
     }
 
     return (
@@ -51,9 +53,9 @@ const mapStateToProps = state => ({
     posts: state.profile.posts
 })
 
-const mapDispatchToProps = dispatch => ({
-    addPost: postText => dispatch(addPost(postText))
-})
+const mapDispatchToProps = {
+    addPost: profileActions.addPost
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfilePosts)

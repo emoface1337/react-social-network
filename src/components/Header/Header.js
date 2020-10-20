@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { makeStyles, AppBar, Toolbar, Typography, Grid } from '@material-ui/core'
-import { getAuthUserData } from '../../store/actions'
+import { authActions } from '../../store/actions'
 import { connect } from 'react-redux'
 
 const useStyles = makeStyles(() => ({
@@ -56,4 +56,4 @@ const Header = ({ getAuthUserData }) => {
     )
 }
 
-export default connect(null, { getAuthUserData })(Header)
+export default connect(null, { getAuthUserData: authActions.getAuthUserData })(Header)

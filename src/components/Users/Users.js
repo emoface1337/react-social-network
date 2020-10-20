@@ -3,12 +3,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { setTitle } from '../../utils'
 
-import {
-    fetchUsers,
-    followUserThunk,
-    setCurrentPage,
-    unfollowUserThunk
-} from '../../store/actions'
+import { usersActions } from '../../store/actions'
 
 import Pagination from '@material-ui/lab/Pagination'
 import { Box, Grid, Button, makeStyles, CircularProgress } from '@material-ui/core'
@@ -144,10 +139,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    followUser: followUserThunk,
-    unfollowUser: unfollowUserThunk,
-    setCurrentPage,
-    fetchUsers
+    followUser: usersActions.followUserThunk,
+    unfollowUser: usersActions.unfollowUserThunk,
+    setCurrentPage: usersActions.setCurrentPage,
+    fetchUsers: usersActions.fetchUsers
 }
 
 export default compose(

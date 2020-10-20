@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getUserProfile, getUserStatus, updateUserStatus } from '../../store/actions'
+import { profileActions } from '../../store/actions'
 
 import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
@@ -48,9 +48,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    getUserProfile,
-    updateUserStatus,
-    getUserStatus
+    getUserProfile: profileActions.getUserProfile,
+    updateUserStatus: profileActions.updateUserStatus,
+    getUserStatus: profileActions.getUserStatus
 }
 
 export default compose(

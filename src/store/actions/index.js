@@ -1,15 +1,11 @@
-import { getAuthUserData } from './authActions'
-import { addPost, getUserProfile, getUserStatus, updateUserStatus } from './profileActions'
-import { fetchUsers, followUserThunk, setCurrentPage, unfollowUserThunk } from './usersActions'
+import { authActions } from './authActions'
+import { profileActions } from './profileActions'
+import { usersActions } from './usersActions'
+import { dialogsActions } from './dialogsActions'
 
 export {
-    getAuthUserData,
-    getUserStatus,
-    getUserProfile,
-    unfollowUserThunk,
-    updateUserStatus,
-    fetchUsers,
-    followUserThunk,
-    setCurrentPage,
-    addPost
+    profileActions,
+    usersActions,
+    authActions,
+    dialogsActions
 }

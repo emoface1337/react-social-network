@@ -7,6 +7,7 @@ import DialogMessage from './DialogMessage/DialogMessage'
 
 import { Box, List, Grid, makeStyles } from '@material-ui/core'
 
+import { dialogsActions } from '../../store/actions'
 // import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 const useStyles = makeStyles(theme => ({
@@ -26,9 +27,17 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const Dialogs = ({ dialogs, messages }) => {
+const Dialogs = ({ dialogs, messages, sendMessage }) => {
 
     const classes = useStyles()
+    const newMessageInput = React.createRef()
+
+    const handleSendMessage = (event) => {
+        const message = newMessageInput.current.value
+        if (event.key === 'Enter' && message !== '') {
+            sendMessage(message)
+        }
+    }
 
     return (
         <Grid container spacing={0} style={{ height: '50vh' }}>
@@ -59,6 +68,8 @@ const Dialogs = ({ dialogs, messages }) => {
                                borderRadius: '6px',
                                border: '1px solid #e7e8ec'
                            }}
+                           onKeyDown={event => handleSendMessage(event)}
+                           ref={newMessageInput}
                     />
                 </Box>
             </Grid>
@@ -72,7 +83,10 @@ const mapStateToProps = state => ({
     isAuth: state.auth.isAuth
 })
 
+const mapDispatchToProps = {
+    sendMessage: dialogsActions.sendMessage
+}
 export default compose(
-    connect(mapStateToProps, null)
+    connect(mapStateToProps, mapDispatchToProps)
 // withAuthRedirect
 )(Dialogs)
