@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
             width: '50%'
         }
+    },
+    formError: {
+        color: 'red',
+        textAlign: 'center'
     }
 }))
 
@@ -72,7 +76,7 @@ const renderCheckbox = ({ input, label }) => (
 
 const LoginForm = props => {
 
-    const { handleSubmit, pristine, submitting } = props
+    const { handleSubmit, pristine, submitting, error } = props
 
     const classes = useStyles()
 
@@ -84,6 +88,9 @@ const LoginForm = props => {
             <SuccessButton type="submit" disabled={pristine || submitting}>
                 Войти
             </SuccessButton>
+            {
+                error && <div className={classes.formError}>{error}</div>
+            }
         </form>
     )
 }

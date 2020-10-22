@@ -32,7 +32,6 @@ const ProfileContainer = (props) => {
     }
 
     useEffect(() => {
-        console.log('effect profile')
         getUserProfile(userId)
         getUserStatus(userId)
     }, [getUserProfile, getUserStatus, userId])

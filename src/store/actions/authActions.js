@@ -1,5 +1,6 @@
 import { types } from '../types'
 import { authAPI } from '../../api/api'
+import { stopSubmit } from 'redux-form'
 
 export const authActions = {
     login: (email, password, rememberMe) => dispatch => {
@@ -7,6 +8,10 @@ export const authActions = {
             .then(({ data }) => {
                 if (data.resultCode === 0) {
                     dispatch(getAuthUserData())
+                }
+                else {
+                    const stopSubmitAction = stopSubmit('login', { _error: data.messages})
+                    dispatch(stopSubmitAction)
                 }
             })
     },
@@ -41,7 +46,6 @@ const getAuthUserData = () => dispatch => {
 
     authAPI.auth()
         .then(({ data }) => {
-            console.log(data)
             if (data.resultCode === 0) {
                 const { id, email, login } = data.data
                 dispatch(setAuthUserData(id, email, login, true))
