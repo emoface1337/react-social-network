@@ -19,6 +19,8 @@ export const types = Object.freeze({
     },
     auth: {
         SET_USER_DATA: 'AUTH/SET_USER_DATA',
-        SET_IS_LOADING: 'AUTH/SET_IS_LOADING'
+        SET_IS_LOADING: 'AUTH/SET_IS_LOADING',
+        LOGIN: 'AUTH/LOGIN',
+        LOGOUT: 'AUTH/LOGOUT'
     }
 })

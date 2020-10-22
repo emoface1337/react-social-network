@@ -40,7 +40,7 @@ const Dialogs = ({ dialogs, messages, sendMessage }) => {
     }
 
     return (
-        <Grid container spacing={0} style={{ height: '50vh' }}>
+        <Grid container spacing={0} style={{ height: 'calc(100vh - 100px)' }}>
             <Grid item xs={4} className={classes.gridItemLeft}>
                 <List>
                     {

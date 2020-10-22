@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-
-import { makeStyles, AppBar, Toolbar, Typography, Grid } from '@material-ui/core'
-import { authActions } from '../../store/actions'
 import { connect } from 'react-redux'
+
+import { makeStyles, AppBar, Toolbar, Typography, Grid, Button } from '@material-ui/core'
+
+import { authActions } from '../../store/actions'
 
 const useStyles = makeStyles(() => ({
     header: {
@@ -22,13 +23,9 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const Header = ({ getAuthUserData }) => {
+const Header = ({ isAuth, logout }) => {
 
     const classes = useStyles()
-
-    useEffect(() => {
-        getAuthUserData()
-    }, [getAuthUserData])
 
     return (
         <Grid item xs={12}>
@@ -49,11 +46,15 @@ const Header = ({ getAuthUserData }) => {
                     <Typography variant="h5" className={classes.title}>
                         Социальная сеть
                     </Typography>
-                    <Link to='/login' className={classes.headerAuthLink}>Логин</Link>
+                    {
+                        isAuth
+                            ? <Button onClick={logout}>Выйти</Button>
+                            : <Link to='/login' className={classes.headerAuthLink}>Войти</Link>
+                    }
                 </Toolbar>
             </AppBar>
         </Grid>
     )
 }
 
-export default connect(null, { getAuthUserData: authActions.getAuthUserData })(Header)
+export default connect(state => ({ isAuth: state.auth.isAuth }), { logout: authActions.logout })(Header)
