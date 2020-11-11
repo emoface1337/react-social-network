@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 import { enhancedStore } from './middleware/core'
 
 import {
+    appReducer as app,
     profileReducer as profile,
     dialogsReducer as dialogs,
     sidebarReducer as sidebar,
@@ -12,6 +13,7 @@ import {
 } from './reducers'
 
 const rootReducer = combineReducers({
+    app,
     profile,
     dialogs,
     sidebar,

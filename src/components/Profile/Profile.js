@@ -7,7 +7,6 @@ import { profileActions } from '../../store/actions'
 
 import ProfilePosts from './ProfilePosts/ProfilePosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
-import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 import Loader from '../Loader/Loader'
 
@@ -32,9 +31,14 @@ const ProfileContainer = (props) => {
     }
 
     useEffect(() => {
-        getUserProfile(userId)
-        getUserStatus(userId)
-    }, [getUserProfile, getUserStatus, userId])
+        console.log('profile effect')
+        if (!userId) {
+            props.history.push('/login')
+        } else {
+            getUserProfile(userId)
+            getUserStatus(userId)
+        }
+    }, [getUserProfile, getUserStatus, userId, props.history])
 
     if (isLoading) return <Loader/>
     return profile && <Profile {...props}/>
@@ -55,6 +59,5 @@ const mapDispatchToProps = {
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    withRouter,
-    withAuthRedirect
+    withRouter
 )(ProfileContainer)

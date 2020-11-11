@@ -1,12 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 
-import { Grid,CssBaseline, Container } from '@material-ui/core'
+import { Grid, CssBaseline, Container } from '@material-ui/core'
 import './App.module.sass'
 
 import { Header, Login, Home } from './components'
 
-const App = () => {
+import { initializeApp } from './store/actions/appActions'
+import Loader from './components/Loader/Loader'
+
+const App = ({ initializeApp, initialized }) => {
+
+    useEffect(() => {
+        console.log('app effect')
+        initializeApp()
+    }, [initializeApp])
+
+    if (!initialized)
+        return <Loader/>
 
     return (
         <BrowserRouter>
@@ -24,4 +36,4 @@ const App = () => {
     )
 }
 
-export default App
+export default connect(state => ({ initialized: state.app.initialized }), { initializeApp })(App)

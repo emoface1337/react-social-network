@@ -1,4 +1,7 @@
 export const types = Object.freeze({
+    app: {
+        SET_INITIALIZED: 'APP/SET_INITIALIZED'
+    },
     dialogs: {
         SEND_MESSAGE: 'DIALOGS/SEND_MESSAGE'
     },

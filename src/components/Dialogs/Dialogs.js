@@ -8,7 +8,7 @@ import DialogMessage from './DialogMessage/DialogMessage'
 import { Box, List, Grid, makeStyles } from '@material-ui/core'
 
 import { dialogsActions } from '../../store/actions'
-// import withAuthRedirect from '../../hoc/withAuthRedirect'
+import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 const useStyles = makeStyles(theme => ({
     dialogs: {
@@ -86,7 +86,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     sendMessage: dialogsActions.sendMessage
 }
+
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps)
-// withAuthRedirect
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
 )(Dialogs)

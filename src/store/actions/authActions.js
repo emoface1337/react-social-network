@@ -8,9 +8,8 @@ export const authActions = {
             .then(({ data }) => {
                 if (data.resultCode === 0) {
                     dispatch(getAuthUserData())
-                }
-                else {
-                    const stopSubmitAction = stopSubmit('login', { _error: data.messages})
+                } else {
+                    const stopSubmitAction = stopSubmit('login', { _error: data.messages })
                     dispatch(stopSubmitAction)
                 }
             })
@@ -40,16 +39,17 @@ const setAuthUserData = (userId, email, login, isAuth) => {
     }
 }
 
-const getAuthUserData = () => dispatch => {
+export const getAuthUserData = () => dispatch => {
 
     dispatch(setIsLoading(true))
-
-    authAPI.auth()
+    console.log('auth/me')
+    return authAPI.auth()
         .then(({ data }) => {
             if (data.resultCode === 0) {
+                console.log('auth/me success')
                 const { id, email, login } = data.data
                 dispatch(setAuthUserData(id, email, login, true))
+                dispatch(setIsLoading(false))
             }
         })
-        .finally(dispatch(setIsLoading(false)))
 }

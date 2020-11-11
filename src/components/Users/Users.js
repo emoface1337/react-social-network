@@ -11,8 +11,15 @@ import { Box, Grid, Button, makeStyles, CircularProgress } from '@material-ui/co
 import Loader from '../Loader/Loader'
 
 import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
-import { compose } from 'redux'
-import withAuthRedirect from '../../hoc/withAuthRedirect'
+
+import {
+    getCurrentPage,
+    getIsFollowPending,
+    getLoadingStatus,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from '../../utils/selectors'
 
 const useStyles = makeStyles(() => ({
     user: {
@@ -130,12 +137,12 @@ const Users = (props) => {
 }
 
 const mapStateToProps = state => ({
-    users: state.users.users,
-    pageSize: state.users.pageSize,
-    totalUsersCount: state.users.totalUsersCount,
-    currentPage: state.users.currentPage,
-    isLoading: state.users.isLoading,
-    isFollowPending: state.users.isFollowPending
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isLoading: getLoadingStatus(state),
+    isFollowPending: getIsFollowPending(state)
 })
 
 const mapDispatchToProps = {
@@ -145,7 +152,4 @@ const mapDispatchToProps = {
     fetchUsers: usersActions.fetchUsers
 }
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    withAuthRedirect
-)(Users)
+export default connect(mapStateToProps, mapDispatchToProps)(Users)
