@@ -9,21 +9,26 @@ const instance = axios.create({
 })
 
 export const usersAPI = {
+
     getUsers(currentPage = 1, pageSize = 12) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
     },
+
     followUser(userId) {
         return instance.post('follow/' + userId)
     },
+
     unfollowUser(userId) {
         return instance.delete('follow/' + userId)
     }
 }
 
 export const authAPI = {
+
     auth() {
         return instance.get('auth/me')
     },
+
     login(email, password, rememberMe) {
         return instance.post('auth/login', {
             email,
@@ -31,18 +36,22 @@ export const authAPI = {
             rememberMe
         })
     },
+
     logout() {
         return instance.delete('auth/login')
     }
 }
 
 export const profileAPI = {
+
     getProfile(userId) {
         return instance.get('profile/' + userId)
     },
+
     getStatus(userId) {
         return instance.get('profile/status/' + userId)
     },
+
     updateStatus(newStatus) {
         return instance.put('profile/status', { status: newStatus })
     }

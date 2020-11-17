@@ -1,15 +1,20 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import LoginForm from './LoginForm/LoginForm'
 import { Typography, Grid } from '@material-ui/core'
-import { authActions } from '../../store/actions'
-import { Redirect } from 'react-router-dom'
 
-const Login = ({ login, isAuth }) => {
+import { authActions } from '../../store/actions'
+
+const Login = () => {
+
+    const isAuth = useSelector(state => state.auth.isAuth)
+
+    const dispatch = useDispatch()
 
     const onLogin = values => {
-        login(values.email, values.password, values.rememberMe)
+        dispatch(authActions.login(values.email, values.password, values.rememberMe))
     }
 
     if (isAuth) {
@@ -24,4 +29,4 @@ const Login = ({ login, isAuth }) => {
     )
 }
 
-export default connect(state => ({ isAuth: state.auth.isAuth }), { login: authActions.login })(Login)
+export default Login

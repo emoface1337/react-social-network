@@ -3,36 +3,24 @@ import { usersAPI } from '../../api/api'
 
 
 export const usersActions = {
+    
     setCurrentPage: page => ({
         type: types.users.SET_CURRENT_PAGE,
         payload: page
     }),
 
-    fetchUsers: (currentPage, pageSize) => dispatch => {
+    fetchUsers: (currentPage, pageSize) => async dispatch => {
         dispatch(setLoading())
-        usersAPI.getUsers(currentPage, pageSize).then(({ data }) => dispatch(setUsers(data)))
+        const { data } = await usersAPI.getUsers(currentPage, pageSize)
+        dispatch(setUsers(data))
     },
 
-    followUserThunk: (userId) => dispatch => {
-        dispatch(setFollowPending(true, userId))
-        usersAPI.followUser(userId)
-            .then(({ data }) => {
-                if (data.resultCode === 0) {
-                    dispatch(followUser(userId))
-                    dispatch(setFollowPending(false, userId))
-                }
-            })
+    followUserThunk: userId => async dispatch => {
+        await followUnfollowFlow(dispatch, userId, usersAPI.followUser, followUser)
     },
 
-    unfollowUserThunk: (userId) => dispatch => {
-        dispatch(setFollowPending(true, userId))
-        usersAPI.unfollowUser(userId)
-            .then(({ data }) => {
-                if (data.resultCode === 0) {
-                    dispatch(unfollowUser(userId))
-                    dispatch(setFollowPending(false, userId))
-                }
-            })
+    unfollowUserThunk: userId => async dispatch => {
+        await followUnfollowFlow(dispatch, userId, usersAPI.unfollowUser, unfollowUser)
     }
 }
 
@@ -62,3 +50,14 @@ const setFollowPending = (isPending, userId) => ({
         userId
     }
 })
+
+const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
+
+    dispatch(setFollowPending(true, userId))
+
+    const { data } = await apiMethod(userId)
+    if (data.resultCode === 0) {
+        dispatch(actionCreator(userId))
+        dispatch(setFollowPending(false, userId))
+    }
+}

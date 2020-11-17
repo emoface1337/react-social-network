@@ -13,7 +13,6 @@ import Loader from './components/Loader/Loader'
 const App = ({ initializeApp, initialized }) => {
 
     useEffect(() => {
-        console.log('app effect')
         initializeApp()
     }, [initializeApp])
 

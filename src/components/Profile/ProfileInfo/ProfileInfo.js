@@ -23,12 +23,15 @@ const useStyles = makeStyles(() => ({
         width: '150px',
         height: '150px'
     },
-    profileInfo: {}
+    profileInfo: {
+        width: '100%'
+    },
+    profileAbout: {
+        margin: '15px 0'
+    }
 }))
 
-const ProfileInfo = (props) => {
-
-    const { profile, status, updateUserStatus } = props
+const ProfileInfo = ({ profile, status, currentUserId, userId }) => {
 
     const classes = useStyles()
 
@@ -45,8 +48,8 @@ const ProfileInfo = (props) => {
             </Box>
             <Box className={classes.profileInfo}>
                 <Typography variant="h4">{profile.fullName}</Typography>
-                <Typography paragraph={true}>{profile.aboutMe}</Typography>
-                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
+                <ProfileStatus status={status} currentUserId={currentUserId} userId={userId}/>
+                { profile.aboutMe ? <Typography paragraph={true} className={classes.profileAbout}>Обо мне: {profile.aboutMe}</Typography> : null }
             </Box>
         </Box>
     )

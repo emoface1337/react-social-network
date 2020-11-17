@@ -1,46 +1,52 @@
 import React from 'react'
-import Post from './Post/Post'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { connect } from 'react-redux'
 import { profileActions } from '../../../store/actions'
 
-import { Box, Typography, makeStyles, TextareaAutosize, List } from '@material-ui/core'
-
+import { Box, Typography, makeStyles, TextField, List } from '@material-ui/core'
+import Post from './Post/Post'
 import { SuccessButton } from '../../../custom-components/SuccessButton'
 
 const useStyles = makeStyles(theme => ({
     profileAddPostTextArea: {
         width: '100%',
-        border: '1px solid white',
-        borderRadius: '5px',
-        padding: '5px 5px'
+        margin: '10px 0'
     },
     profilePosts: {}
 }))
 
-const ProfilePosts = (props) => {
+const ProfilePosts = () => {
 
     const classes = useStyles()
 
     const newPostTextArea = React.createRef()
 
+    const posts = useSelector(state => state.profile.posts)
+    const dispatch = useDispatch()
+
     const onAddPost = () => {
         const postText = newPostTextArea.current.value
         if (postText !== '')
-            props.addPost(newPostTextArea.current.value)
+            dispatch(profileActions.addPost(newPostTextArea.current.value))
     }
 
     return (
         <>
             <Typography variant="h5">Мои записи</Typography>
-            <TextareaAutosize rowsMin={4} placeholder="Ваша новость..." ref={newPostTextArea}
-                              className={classes.profileAddPostTextArea}/>
+            <TextField
+                multiline
+                rows={4}
+                placeholder="Ваша новость..."
+                className={classes.profileAddPostTextArea}
+                variant="outlined"
+                inputRef={newPostTextArea}
+            />
             <Box style={{ textAlign: 'end' }}>
                 <SuccessButton onClick={onAddPost} variant="contained">Добавить</SuccessButton>
             </Box>
             <List>
                 {
-                    props.posts.map(post => (
+                    posts.map(post => (
                         <Post key={`${post.id}_${post.text}`} text={post.text}/>
                     ))
                 }
@@ -49,13 +55,4 @@ const ProfilePosts = (props) => {
     )
 }
 
-const mapStateToProps = state => ({
-    posts: state.profile.posts
-})
-
-const mapDispatchToProps = {
-    addPost: profileActions.addPost
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePosts)
+export default ProfilePosts

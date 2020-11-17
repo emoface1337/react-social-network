@@ -1,16 +1,13 @@
 import React, { useEffect, useLayoutEffect } from 'react'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { setTitle } from '../../utils'
 
 import { usersActions } from '../../store/actions'
 
 import Pagination from '@material-ui/lab/Pagination'
-import { Box, Grid, Button, makeStyles, CircularProgress } from '@material-ui/core'
+import { Box, Grid, makeStyles } from '@material-ui/core'
 
 import Loader from '../Loader/Loader'
-
-import defaultUserAvatar from '../../assets/images/default-avatar.jpg'
 
 import {
     getCurrentPage,
@@ -20,6 +17,8 @@ import {
     getTotalUsersCount,
     getUsers
 } from '../../utils/selectors'
+
+import User from './User/User'
 
 const useStyles = makeStyles(() => ({
     user: {
@@ -63,17 +62,26 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const Users = (props) => {
+const { fetchUsers, setCurrentPage } = usersActions
 
-    const { users, followUser, unfollowUser, currentPage, pageSize, isLoading, isFollowPending, totalUsersCount, setCurrentPage, fetchUsers } = props
+const Users = () => {
+
+    const users = useSelector(state => getUsers(state))
+    const pageSize = useSelector(state => getPageSize(state))
+    const totalUsersCount = useSelector(state => getTotalUsersCount(state))
+    const currentPage = useSelector(state => getCurrentPage(state))
+    const isLoading = useSelector(state => getLoadingStatus(state))
+    const isFollowPending = useSelector(state => getIsFollowPending(state))
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         return setTitle('Пользователи')
     }, [])
 
     useLayoutEffect(() => {
-        fetchUsers(currentPage, pageSize)
-    }, [currentPage, pageSize, fetchUsers])
+        dispatch(fetchUsers(currentPage, pageSize))
+    }, [currentPage, dispatch, pageSize])
 
     const classes = useStyles()
 
@@ -82,14 +90,7 @@ const Users = (props) => {
     const [pageNum, setPageNumState] = React.useState(1)
     const handleChange = (event, value) => {
         setPageNumState(value)
-        setCurrentPage(value)
-    }
-
-    const handleFollow = (event, userId, followed) => {
-        event.preventDefault()
-        followed
-            ? unfollowUser(userId)
-            : followUser(userId)
+        dispatch(setCurrentPage(value))
     }
 
     if (isLoading)
@@ -103,32 +104,7 @@ const Users = (props) => {
             <Grid container spacing={3}>
                 {
                     users.map(user => (
-                        <Grid item xs={3} key={user.id}>
-                            <NavLink to={'/profile/' + user.id} className={classes.user}>
-                                <img
-                                    src={user.photos.small !== null ? user.photos.small : defaultUserAvatar}
-                                    alt={user.name} className={`${classes.user}__photo`}/>
-                                {
-                                    user.followed ?
-                                        <div className={classes.wrapper}>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                    disabled={isFollowPending.some(id => id === user.id)}
-                                                    onClick={event => handleFollow(event, user.id, user.followed)}>Отписаться</Button>
-                                            {isFollowPending.some(id => id === user.id) &&
-                                            <CircularProgress size={24} className={classes.buttonProgress}/>}
-                                        </div>
-                                        :
-                                        <div className={classes.wrapper}>
-                                            <Button variant="contained" color="secondary" size="small"
-                                                    disabled={isFollowPending.some(id => id === user.id)}
-                                                    onClick={event => handleFollow(event, user.id, user.followed)}>Подписаться</Button>
-                                            {isFollowPending.some(id => id === user.id) &&
-                                            <CircularProgress size={22} className={classes.buttonProgress}/>}
-                                        </div>
-                                }
-                                <Box className={`${classes.user}__name`}>{user.name}</Box>
-                            </NavLink>
-                        </Grid>
+                        <User user={user} isFollowPending={isFollowPending} classes={classes} key={user.id}/>
                     ))
                 }
             </Grid>
@@ -136,20 +112,4 @@ const Users = (props) => {
     )
 }
 
-const mapStateToProps = state => ({
-    users: getUsers(state),
-    pageSize: getPageSize(state),
-    totalUsersCount: getTotalUsersCount(state),
-    currentPage: getCurrentPage(state),
-    isLoading: getLoadingStatus(state),
-    isFollowPending: getIsFollowPending(state)
-})
-
-const mapDispatchToProps = {
-    followUser: usersActions.followUserThunk,
-    unfollowUser: usersActions.unfollowUserThunk,
-    setCurrentPage: usersActions.setCurrentPage,
-    fetchUsers: usersActions.fetchUsers
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Users)
+export default Users

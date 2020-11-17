@@ -1,7 +1,7 @@
 import { types } from '../types'
 
 export const dialogsActions = {
-    sendMessage: (message) => ({
+    sendMessage: message => ({
         type: types.dialogs.SEND_MESSAGE,
         payload: message
     })

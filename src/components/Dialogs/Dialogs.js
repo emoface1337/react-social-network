@@ -1,6 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
+import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 import DialogUser from './DialogUser/DialogUser'
 import DialogMessage from './DialogMessage/DialogMessage'
@@ -8,7 +8,6 @@ import DialogMessage from './DialogMessage/DialogMessage'
 import { Box, List, Grid, makeStyles } from '@material-ui/core'
 
 import { dialogsActions } from '../../store/actions'
-import withAuthRedirect from '../../hoc/withAuthRedirect'
 
 const useStyles = makeStyles(theme => ({
     dialogs: {
@@ -27,15 +26,20 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const Dialogs = ({ dialogs, messages, sendMessage }) => {
+const Dialogs = () => {
 
     const classes = useStyles()
+
     const newMessageInput = React.createRef()
+
+    const { dialogs, messages } = useSelector(state => state.dialogs)
+
+    const dispatch = useDispatch()
 
     const handleSendMessage = (event) => {
         const message = newMessageInput.current.value
         if (event.key === 'Enter' && message !== '') {
-            sendMessage(message)
+            dispatch(dialogsActions.sendMessage(message))
         }
     }
 
@@ -77,17 +81,4 @@ const Dialogs = ({ dialogs, messages, sendMessage }) => {
     )
 }
 
-const mapStateToProps = state => ({
-    dialogs: state.dialogs.dialogs,
-    messages: state.dialogs.messages,
-    isAuth: state.auth.isAuth
-})
-
-const mapDispatchToProps = {
-    sendMessage: dialogsActions.sendMessage
-}
-
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    withAuthRedirect
-)(Dialogs)
+export default withAuthRedirect(Dialogs)

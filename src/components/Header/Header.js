@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { makeStyles, AppBar, Toolbar, Typography, Grid, Button } from '@material-ui/core'
 
@@ -23,15 +23,18 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-const Header = ({ isAuth, logout }) => {
+const Header = () => {
 
     const classes = useStyles()
+
+    const isAuth = useSelector(state => state.auth.isAuth)
+    const dispatch = useDispatch()
 
     return (
         <Grid item xs={12}>
             <AppBar position="sticky" className={classes.header}>
                 <Toolbar>
-                    <Link to='/' className={classes.headerLink}>
+                    <Link to='/profile' className={classes.headerLink}>
                         <svg height="60" viewBox="0 0 512 512" width="60" xmlns="http://www.w3.org/2000/svg">
                             <g>
                                 <g>
@@ -48,7 +51,7 @@ const Header = ({ isAuth, logout }) => {
                     </Typography>
                     {
                         isAuth
-                            ? <Button onClick={logout}>Выйти</Button>
+                            ? <Button onClick={() => dispatch(authActions.logout())}>Выйти</Button>
                             : <Link to='/login' className={classes.headerAuthLink}>Войти</Link>
                     }
                 </Toolbar>
@@ -57,4 +60,4 @@ const Header = ({ isAuth, logout }) => {
     )
 }
 
-export default connect(state => ({ isAuth: state.auth.isAuth }), { logout: authActions.logout })(Header)
+export default Header

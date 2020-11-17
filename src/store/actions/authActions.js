@@ -3,24 +3,22 @@ import { authAPI } from '../../api/api'
 import { stopSubmit } from 'redux-form'
 
 export const authActions = {
-    login: (email, password, rememberMe) => dispatch => {
-        authAPI.login(email, password, rememberMe)
-            .then(({ data }) => {
-                if (data.resultCode === 0) {
-                    dispatch(getAuthUserData())
-                } else {
-                    const stopSubmitAction = stopSubmit('login', { _error: data.messages })
-                    dispatch(stopSubmitAction)
-                }
-            })
+
+    login: (email, password, rememberMe) => async dispatch => {
+        const { data } = await authAPI.login(email, password, rememberMe)
+        if (data.resultCode === 0) {
+            dispatch(getAuthUserData())
+        } else {
+            const stopSubmitAction = stopSubmit('login', { _error: data.messages })
+            dispatch(stopSubmitAction)
+        }
     },
-    logout: () => dispatch => {
-        authAPI.logout()
-            .then(({ data }) => {
-                if (data.resultCode === 0) {
-                    dispatch(setAuthUserData(null, null, null, false))
-                }
-            })
+
+    logout: () => async dispatch => {
+        const { data } = await authAPI.logout()
+        if (data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false))
+        }
     }
 }
 
@@ -39,17 +37,15 @@ const setAuthUserData = (userId, email, login, isAuth) => {
     }
 }
 
-export const getAuthUserData = () => dispatch => {
+export const getAuthUserData = () => async dispatch => {
 
     dispatch(setIsLoading(true))
-    console.log('auth/me')
-    return authAPI.auth()
-        .then(({ data }) => {
-            if (data.resultCode === 0) {
-                console.log('auth/me success')
-                const { id, email, login } = data.data
-                dispatch(setAuthUserData(id, email, login, true))
-                dispatch(setIsLoading(false))
-            }
-        })
+
+    const { data } = await authAPI.auth()
+
+    if (data.resultCode === 0) {
+        const { id, email, login } = data.data
+        dispatch(setAuthUserData(id, email, login, true))
+        dispatch(setIsLoading(false))
+    }
 }
