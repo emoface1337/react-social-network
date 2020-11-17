@@ -45,6 +45,13 @@ export const profileReducer = (state = initialState, action) => {
             }
         }
 
+        case types.profile.SET_USER_PHOTO: {
+            return {
+                ...state,
+                profile: { ...state.profile, photos: action.payload }
+            }
+        }
+
         default:
             return state
     }

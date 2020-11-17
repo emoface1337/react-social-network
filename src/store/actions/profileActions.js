@@ -24,6 +24,13 @@ export const profileActions = {
         if (data.resultCode === 0) {
             dispatch(setUserStatus(newStatus))
         }
+    },
+
+    updateUserPhoto: photo => async dispatch => {
+        const { data } = await profileAPI.updateUserPhoto(photo)
+        if (data.resultCode === 0) {
+            dispatch(setUserPhoto(data.data.photos))
+        }
     }
 }
 
@@ -39,4 +46,9 @@ const setUserStatus = status => ({
 
 const setUserIsLoading = () => ({
     type: types.profile.SET_USER_IS_LOADING
+})
+
+const setUserPhoto = photos => ({
+    type: types.profile.SET_USER_PHOTO,
+    payload: photos
 })

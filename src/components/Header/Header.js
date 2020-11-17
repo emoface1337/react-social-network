@@ -27,7 +27,8 @@ const Header = () => {
 
     const classes = useStyles()
 
-    const isAuth = useSelector(state => state.auth.isAuth)
+    const { isAuth, login } = useSelector(state => state.auth)
+
     const dispatch = useDispatch()
 
     return (
@@ -51,7 +52,8 @@ const Header = () => {
                     </Typography>
                     {
                         isAuth
-                            ? <Button onClick={() => dispatch(authActions.logout())}>Выйти</Button>
+                            ? <><Typography variant="h6">{login}</Typography><Button
+                                onClick={() => dispatch(authActions.logout())}>Выйти</Button></>
                             : <Link to='/login' className={classes.headerAuthLink}>Войти</Link>
                     }
                 </Toolbar>
