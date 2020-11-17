@@ -1,20 +1,25 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 
 import { Grid, CssBaseline, Container } from '@material-ui/core'
-import './App.module.sass'
 
 import { Header, Login, Home } from './components'
-
-import { initializeApp } from './store/actions/appActions'
 import Loader from './components/Loader/Loader'
 
-const App = ({ initializeApp, initialized }) => {
+import { initializeApp } from './store/actions/appActions'
+
+import './App.module.sass'
+import { useDispatch, useSelector } from 'react-redux'
+
+const App = () => {
+
+    const initialized = useSelector(state => state.app.initialized)
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        initializeApp()
-    }, [initializeApp])
+        dispatch(initializeApp())
+    }, [dispatch])
 
     if (!initialized)
         return <Loader/>
@@ -35,4 +40,4 @@ const App = ({ initializeApp, initialized }) => {
     )
 }
 
-export default connect(state => ({ initialized: state.app.initialized }), { initializeApp })(App)
+export default App
