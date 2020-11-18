@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-import { Checkbox, FormControlLabel, makeStyles, TextField } from '@material-ui/core'
+import { Box, Checkbox, FormControlLabel, makeStyles, TextField } from '@material-ui/core'
 import { SuccessButton } from '../../../custom-components/SuccessButton'
 
 const useStyles = makeStyles((theme) => ({
@@ -25,7 +25,8 @@ const validate = values => {
     const errors = {}
     const requiredFields = [
         'email',
-        'password'
+        'password',
+        'captcha'
     ]
     requiredFields.forEach(field => {
         if (!values[field]) {
@@ -76,7 +77,7 @@ const renderCheckbox = ({ input, label }) => (
 
 const LoginForm = props => {
 
-    const { handleSubmit, pristine, submitting, error } = props
+    const { handleSubmit, pristine, submitting, error, captchaUrl } = props
 
     const classes = useStyles()
 
@@ -85,6 +86,12 @@ const LoginForm = props => {
             <Field name="email" component={renderTextField} label="E-mail"/>
             <Field name="password" component={renderPasswordField} label="Пароль"/>
             <Field name="rememberMe" component={renderCheckbox} label="Запомнить меня"/>
+            {
+                captchaUrl && <Box>
+                    <img src={captchaUrl} alt="Captcha"/>
+                    <Field name="captcha" component={renderTextField} label="Captcha"/>
+                </Box>
+            }
             <SuccessButton type="submit" disabled={pristine || submitting}>
                 Войти
             </SuccessButton>

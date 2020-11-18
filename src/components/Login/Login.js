@@ -9,12 +9,12 @@ import { authActions } from '../../store/actions'
 
 const Login = () => {
 
-    const isAuth = useSelector(state => state.auth.isAuth)
+    const { isAuth, captchaUrl } = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
 
     const onLogin = values => {
-        dispatch(authActions.login(values.email, values.password, values.rememberMe))
+        dispatch(authActions.login(values.email, values.password, values.rememberMe, values.captcha))
     }
 
     if (isAuth) {
@@ -24,7 +24,7 @@ const Login = () => {
     return (
         <Grid item xs={12}>
             <Typography variant="h5" style={{ textAlign: 'center' }}>Логин</Typography>
-            <LoginForm onSubmit={onLogin}/>
+            <LoginForm onSubmit={onLogin} captchaUrl={captchaUrl}/>
         </Grid>
     )
 }

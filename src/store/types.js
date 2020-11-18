@@ -25,6 +25,7 @@ export const types = Object.freeze({
         SET_USER_DATA: 'AUTH/SET_USER_DATA',
         SET_IS_LOADING: 'AUTH/SET_IS_LOADING',
         LOGIN: 'AUTH/LOGIN',
-        LOGOUT: 'AUTH/LOGOUT'
+        LOGOUT: 'AUTH/LOGOUT',
+        SET_USER_CAPTCHA: 'AUTH/SET_USER_CAPTCHA'
     }
 })
