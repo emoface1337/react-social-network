@@ -25,6 +25,15 @@ const useStyles = makeStyles(() => ({
         flexDirection: 'column',
         alignItems: 'center'
     },
+    profilePhotoImage: {
+        width: '100%',
+        marginBottom: '15px'
+    },
+    profileHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
     profileIcon: {
         width: '150px',
         height: '150px'
@@ -63,10 +72,10 @@ const ProfileInfo = ({ profile, status, currentUserId, userId }) => {
         <Box className={classes.profile}>
             <Box className={classes.profilePhoto}>
                 {
-                    profile.photos.large ?
-                        <img src={profile.photos.large} alt={profile.fullName}/>
-                        :
-                        <PersonIcon className={classes.profileIcon}/>
+                    profile.photos.large
+                        ? <img src={profile.photos.large} alt={profile.fullName}
+                               className={classes.profilePhotoImage}/>
+                        : <PersonIcon className={classes.profileIcon}/>
                 }
                 {
                     currentUserId === userId
@@ -94,10 +103,20 @@ const ProfileInfo = ({ profile, status, currentUserId, userId }) => {
                 }
             </Box>
             <Box className={classes.profileInfo}>
-                <Typography variant="h4">{profile.fullName}</Typography>
+                <Box className={classes.profileHeader}>
+                    <Typography variant="h4">{profile.fullName}</Typography>
+                    <Box>
+                        <Typography component="span">Ищет работу: </Typography>
+                        <Typography component="span">{profile.lookingForAJob ? 'Да' : 'Нет'}</Typography>
+                    </Box>
+                </Box>
                 <ProfileStatus status={status} currentUserId={currentUserId} userId={userId}/>
-                {profile.aboutMe ? <Typography paragraph={true} className={classes.profileAbout}>Обо
-                    мне: {profile.aboutMe}</Typography> : null}
+                {
+                    profile.aboutMe
+                        ? <Typography paragraph={true} className={classes.profileAbout}>Обо
+                            мне: {profile.aboutMe}</Typography>
+                        : null
+                }
             </Box>
         </Box>
     )

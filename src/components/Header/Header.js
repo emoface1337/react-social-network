@@ -2,11 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { makeStyles, AppBar, Toolbar, Typography, Grid, Button } from '@material-ui/core'
+import { makeStyles, AppBar, Toolbar, Typography, Grid, Box, IconButton } from '@material-ui/core'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 import { authActions } from '../../store/actions'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     header: {
         padding: '5px 5px'
     },
@@ -20,6 +21,14 @@ const useStyles = makeStyles(() => ({
     },
     title: {
         flexGrow: 1
+    },
+    loginBlock: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    logoutButton: {
+        color: theme.palette.error.main,
+        marginLeft: '10px'
     }
 }))
 
@@ -52,8 +61,13 @@ const Header = () => {
                     </Typography>
                     {
                         isAuth
-                            ? <><Typography variant="h6">{login}</Typography><Button
-                                onClick={() => dispatch(authActions.logout())}>Выйти</Button></>
+                            ?
+                            <Box className={classes.loginBlock}>
+                                <Typography variant="h6">{login}</Typography>
+                                <IconButton color="secondary" onClick={() => dispatch(authActions.logout())} className={classes.logoutButton}>
+                                    <ExitToAppIcon />
+                                </IconButton>
+                            </Box>
                             : <Link to='/login' className={classes.headerAuthLink}>Войти</Link>
                     }
                 </Toolbar>
