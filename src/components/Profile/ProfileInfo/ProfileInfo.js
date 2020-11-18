@@ -87,7 +87,7 @@ const ProfileInfo = ({ profile, status, currentUserId, userId }) => {
                                 type="file"
                                 onChange={e => uploadPhoto(e)}
                             />
-                            <label htmlFor="photoUpload">
+                            <label htmlFor="photoUpload" style={{ width: '100%'}}>
                                 <Button
                                     variant="contained"
                                     color="primary"
