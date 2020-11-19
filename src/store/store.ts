@@ -24,4 +24,6 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, enhancedStore)
 
+export type dispatchType = typeof store.dispatch
+
 export default store

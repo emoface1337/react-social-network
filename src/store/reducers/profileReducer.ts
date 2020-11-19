@@ -1,18 +1,31 @@
-import { types } from '../types'
+import {
+    PROFILE_ADD_POST,
+    PROFILE_SET_USER_IS_LOADING, PROFILE_SET_USER_PHOTO,
+    PROFILE_SET_USER_PROFILE,
+    PROFILE_SET_USER_STATUS,
+    profileActionTypes
+} from '../types'
+
+type Post = {
+    id: number,
+    text: string
+}
 
 const initialState = {
-    profile: null,
+    profile: null as object | null,
     posts: [
         { id: 1, text: 'Пост 1' },
         { id: 2, text: 'Пост 2' }
-    ],
-    status: '',
-    isLoading: false
+    ] as Array<Post>,
+    status: null as string | null,
+    isLoading: false as boolean
 }
 
-export const profileReducer = (state = initialState, action) => {
+type stateType = typeof initialState
+
+export const profileReducer = (state: stateType = initialState, action: profileActionTypes): stateType => {
     switch (action.type) {
-        case types.profile.ADD_POST: {
+        case PROFILE_ADD_POST: {
             const newPost = {
                 id: Date.now(),
                 text: action.payload
@@ -23,7 +36,7 @@ export const profileReducer = (state = initialState, action) => {
             }
         }
 
-        case types.profile.SET_USER_PROFILE: {
+        case PROFILE_SET_USER_PROFILE: {
             return {
                 ...state,
                 profile: action.payload,
@@ -31,21 +44,21 @@ export const profileReducer = (state = initialState, action) => {
             }
         }
 
-        case types.profile.SET_USER_STATUS : {
+        case PROFILE_SET_USER_STATUS : {
             return {
                 ...state,
                 status: action.payload
             }
         }
 
-        case types.profile.SET_USER_IS_LOADING: {
+        case PROFILE_SET_USER_IS_LOADING: {
             return {
                 ...state,
                 isLoading: true
             }
         }
 
-        case types.profile.SET_USER_PHOTO: {
+        case PROFILE_SET_USER_PHOTO: {
             return {
                 ...state,
                 profile: { ...state.profile, photos: action.payload }

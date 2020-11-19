@@ -1,10 +1,11 @@
-import { types } from '../types'
+import { SET_IS_LOADING, SET_USER_CAPTCHA, SET_USER_DATA } from '../types'
 import { authAPI, securityAPI } from '../../api/api'
 import { stopSubmit } from 'redux-form'
+import { dispatchType } from "../store"
 
 export const authActions = {
 
-    login: (email, password, rememberMe, captcha) => async dispatch => {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: dispatchType) => {
         const { data } = await authAPI.login(email, password, rememberMe, captcha)
         if (data.resultCode === 0) {
             dispatch(getAuthUserData())
@@ -16,7 +17,7 @@ export const authActions = {
         }
     },
 
-    logout: () => async dispatch => {
+    logout: () => async (dispatch: dispatchType) => {
         const { data } = await authAPI.logout()
         if (data.resultCode === 0) {
             dispatch(setAuthUserData(null, null, null, false))
@@ -24,7 +25,7 @@ export const authActions = {
     }
 }
 
-export const getAuthUserData = () => async dispatch => {
+export const getAuthUserData = () => async (dispatch: dispatchType) => {
 
     dispatch(setIsLoading(true))
 
@@ -37,20 +38,20 @@ export const getAuthUserData = () => async dispatch => {
     }
 }
 
-const getCaptchaUrl = () => async dispatch => {
+const getCaptchaUrl = () => async (dispatch: dispatchType) => {
     const { data } = await securityAPI.getCaptchaUrl()
     const captchaUrl = data.url
     dispatch(setUserCaptcha(captchaUrl))
 }
 
-const setIsLoading = loading => ({
-    type: types.auth.SET_IS_LOADING,
+const setIsLoading = (loading: boolean) => ({
+    type: SET_IS_LOADING,
     payload: loading
 })
 
-const setAuthUserData = (userId, email, login, isAuth) => {
+const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
-        type: types.auth.SET_USER_DATA,
+        type: SET_USER_DATA,
         payload: {
             isAuth,
             user: { id: userId, email, login }
@@ -58,7 +59,7 @@ const setAuthUserData = (userId, email, login, isAuth) => {
     }
 }
 
-const setUserCaptcha = (captchaUrl) => ({
-    type: types.auth.SET_USER_CAPTCHA,
+const setUserCaptcha = (captchaUrl: string) => ({
+    type: SET_USER_CAPTCHA,
     payload: captchaUrl
 })

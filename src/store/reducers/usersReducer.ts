@@ -1,17 +1,27 @@
-import { types } from '../types'
+import {
+    USERS_FOLLOW,
+    USERS_SET_CURRENT_PAGE,
+    USERS_SET_FOLLOW_PENDING,
+    USERS_SET_LOADING,
+    USERS_SET_USERS,
+    USERS_UNFOLLOW,
+    userActionTypes
+} from '../types'
 
 const initialState = {
-    users: [],
-    pageSize: 12,
-    totalUsersCount: 0,
-    currentPage: 1,
-    isLoading: false,
-    isFollowPending: []
+    users: [] as Array<any>,
+    pageSize: 12 as number,
+    totalUsersCount: 0 as number,
+    currentPage: 1 as number,
+    isLoading: false as boolean,
+    isFollowPending: [] as Array<any>
 }
 
-export const usersReducer = (state = initialState, action) => {
+type stateType = typeof initialState
+
+export const usersReducer = (state: stateType = initialState, action: userActionTypes): stateType => {
     switch (action.type) {
-        case types.users.FOLLOW: {
+        case USERS_FOLLOW: {
             return {
                 ...state,
                 users: state.users.map(user => {
@@ -23,7 +33,7 @@ export const usersReducer = (state = initialState, action) => {
             }
         }
 
-        case types.users.UNFOLLOW: {
+        case USERS_UNFOLLOW: {
             return {
                 ...state,
                 users: state.users.map(user => {
@@ -35,7 +45,7 @@ export const usersReducer = (state = initialState, action) => {
             }
         }
 
-        case types.users.SET_USERS: {
+        case USERS_SET_USERS: {
             return {
                 ...state,
                 users: [...action.payload.items],
@@ -44,14 +54,14 @@ export const usersReducer = (state = initialState, action) => {
             }
         }
 
-        case types.users.SET_CURRENT_PAGE: {
+        case USERS_SET_CURRENT_PAGE: {
             return {
                 ...state,
                 currentPage: action.payload
             }
         }
 
-        case types.users.SET_LOADING: {
+        case USERS_SET_LOADING: {
             return {
                 ...state,
                 users: [],
@@ -59,7 +69,7 @@ export const usersReducer = (state = initialState, action) => {
             }
         }
 
-        case types.users.SET_FOLLOW_PENDING: {
+        case USERS_SET_FOLLOW_PENDING: {
             return {
                 ...state,
                 isFollowPending: action.payload.isPending
