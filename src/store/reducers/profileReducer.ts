@@ -6,11 +6,6 @@ import {
     profileActionTypes
 } from '../types'
 
-type Post = {
-    id: number,
-    text: string
-}
-
 const initialState = {
     profile: null as object | null,
     posts: [
@@ -18,12 +13,12 @@ const initialState = {
         { id: 2, text: 'Пост 2' }
     ] as Array<Post>,
     status: null as string | null,
-    isLoading: false as boolean
+    isLoading: false
 }
 
 type stateType = typeof initialState
 
-export const profileReducer = (state: stateType = initialState, action: profileActionTypes): stateType => {
+export const profileReducer = (state = initialState, action: profileActionTypes): stateType => {
     switch (action.type) {
         case PROFILE_ADD_POST: {
             const newPost = {

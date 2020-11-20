@@ -1,6 +1,6 @@
 export const SET_INITIALIZED = 'APP/SET_INITIALIZED'
 
-type setInitialized = {
+type SetInitialized = {
     type: typeof SET_INITIALIZED
 }
 
@@ -10,32 +10,32 @@ export const LOGIN = 'AUTH/LOGIN'
 export const LOGOUT = 'AUTH/LOGOUT'
 export const SET_USER_CAPTCHA = 'AUTH/SET_USER_CAPTCHA'
 
-type setUserData = {
+type SetUserData = {
     type: typeof SET_USER_DATA,
     payload: {
         user: {
-            id: number,
-            email: string,
-            login: string,
+            id: number | null,
+            email: string | null,
+            login: string | null,
 
         },
         isAuth: boolean
     }
 }
 
-type setIsLoadingType = {
+type SetIsLoading = {
     type: typeof SET_IS_LOADING,
     payload: boolean
 }
 
-type setUserCaptcha = {
+type SetUserCaptcha = {
     type: typeof SET_USER_CAPTCHA,
     payload: string
 }
 
 export const SEND_MESSAGE = 'DIALOGS/SEND_MESSAGE'
 
-type sendMessageType = {
+type SendMessage = {
     type: typeof SEND_MESSAGE,
     payload: string
 }
@@ -47,31 +47,31 @@ export const USERS_SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE'
 export const USERS_SET_LOADING = 'USERS/SET_LOADING'
 export const USERS_SET_FOLLOW_PENDING = 'USERS/SET_FOLLOW_PENDING'
 
-type userFollowType = {
+type UserFollow = {
     type: typeof USERS_FOLLOW,
     payload: number
 }
 
-type userUnfollowType = {
+type UserUnfollow = {
     type: typeof USERS_UNFOLLOW,
     payload: number
 }
 
-type setUsersType = {
+type SetUsers = {
     type: typeof USERS_SET_USERS,
     payload: any
 }
 
-type setCurrentPageType = {
+type SetCurrentPage = {
     type: typeof USERS_SET_CURRENT_PAGE,
     payload: number
 }
 
-type setLoadingType = {
+type SetLoading= {
     type: typeof USERS_SET_LOADING
 }
 
-type setFollowPending = {
+type SetFollowPending = {
     payload: {
         isPending: boolean,
         userId: number
@@ -86,43 +86,43 @@ export const PROFILE_UPDATE_USER_STATUS = 'PROFILE/UPDATE_USER_STATUS'
 export const PROFILE_SET_USER_IS_LOADING = 'PROFILE/SET_USER_IS_LOADING'
 export const PROFILE_SET_USER_PHOTO = 'PROFILE/SET_USER_PHOTO'
 
-type addPostType = {
+type AddPost = {
     type: typeof PROFILE_ADD_POST,
     payload: string
 }
 
-type setUserProfileType = {
+type SetUserProfile = {
     type: typeof PROFILE_SET_USER_PROFILE,
     payload: any
 }
 
-type setUserStatusType = {
+type SetUserStatus = {
     type: typeof PROFILE_SET_USER_STATUS,
     payload: string
 }
 
-type updateUserStatusType = {
+type UpdateUserStatus = {
     type: typeof PROFILE_UPDATE_USER_STATUS,
     payload: string
 }
 
-type setUserIsLoadingType = {
+type SetUserIsLoading = {
     type: typeof PROFILE_SET_USER_IS_LOADING
 }
 
-type setUserPhotoType = {
+type SetUserPhoto = {
     type: typeof PROFILE_SET_USER_PHOTO
     payload: any
 }
 
-export type authActionTypes = setUserData | setIsLoadingType | setUserCaptcha
-export type appActionTypes = setInitialized
-export type dialogsActionTypes = sendMessageType
+export type authActionTypes = SetUserData | SetIsLoading | SetUserCaptcha
+export type appActionTypes = SetInitialized
+export type dialogsActionTypes = SendMessage
 export type userActionTypes =
-    userFollowType
-    | userUnfollowType
-    | setUsersType
-    | setCurrentPageType
-    | setLoadingType
-    | setFollowPending
-export type profileActionTypes = addPostType | setUserProfileType | setUserStatusType | updateUserStatusType | setUserIsLoadingType | setUserPhotoType
+    UserFollow
+    | UserUnfollow
+    | SetUsers
+    | SetCurrentPage
+    | SetLoading
+    | SetFollowPending
+export type profileActionTypes = AddPost | SetUserProfile | SetUserStatus | UpdateUserStatus | SetUserIsLoading | SetUserPhoto

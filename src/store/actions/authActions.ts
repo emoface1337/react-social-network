@@ -1,7 +1,7 @@
-import { SET_IS_LOADING, SET_USER_CAPTCHA, SET_USER_DATA } from '../types'
+import { authActionTypes, SET_IS_LOADING, SET_USER_CAPTCHA, SET_USER_DATA } from '../types'
 import { authAPI, securityAPI } from '../../api/api'
 import { stopSubmit } from 'redux-form'
-import { dispatchType } from "../store"
+import { dispatchType } from '../store'
 
 export const authActions = {
 
@@ -44,22 +44,20 @@ const getCaptchaUrl = () => async (dispatch: dispatchType) => {
     dispatch(setUserCaptcha(captchaUrl))
 }
 
-const setIsLoading = (loading: boolean) => ({
+const setIsLoading = (loading: boolean): authActionTypes => ({
     type: SET_IS_LOADING,
     payload: loading
 })
 
-const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
-    return {
-        type: SET_USER_DATA,
-        payload: {
-            isAuth,
-            user: { id: userId, email, login }
-        }
+const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean): authActionTypes => ({
+    type: SET_USER_DATA,
+    payload: {
+        isAuth,
+        user: { id: userId, email, login }
     }
-}
+})
 
-const setUserCaptcha = (captchaUrl: string) => ({
+const setUserCaptcha = (captchaUrl: string): authActionTypes => ({
     type: SET_USER_CAPTCHA,
     payload: captchaUrl
 })

@@ -1,10 +1,18 @@
-import { USERS_FOLLOW, USERS_SET_CURRENT_PAGE, USERS_SET_FOLLOW_PENDING, USERS_SET_LOADING, USERS_SET_USERS, USERS_UNFOLLOW } from '../types'
+import {
+    userActionTypes,
+    USERS_FOLLOW,
+    USERS_SET_CURRENT_PAGE,
+    USERS_SET_FOLLOW_PENDING,
+    USERS_SET_LOADING,
+    USERS_SET_USERS,
+    USERS_UNFOLLOW
+} from '../types'
 import { usersAPI } from '../../api/api'
 import { dispatchType } from '../store'
 
 export const usersActions = {
 
-    setCurrentPage: (page: number) => ({
+    setCurrentPage: (page: number): userActionTypes => ({
         type: USERS_SET_CURRENT_PAGE,
         payload: page
     }),
@@ -24,26 +32,26 @@ export const usersActions = {
     }
 }
 
-const followUser = (userId: number) => ({
+const followUser = (userId: number): userActionTypes => ({
     type: USERS_FOLLOW,
     payload: userId
 })
 
-const unfollowUser = (userId: number) => ({
+const unfollowUser = (userId: number): userActionTypes => ({
     type: USERS_UNFOLLOW,
     payload: userId
 })
 
-const setUsers = (data: any) => ({
+const setUsers = (data: any): userActionTypes => ({
     type: USERS_SET_USERS,
     payload: data
 })
 
-const setLoading = () => ({
+const setLoading = (): userActionTypes => ({
     type: USERS_SET_LOADING
 })
 
-const setFollowPending = (isPending: boolean, userId: number) => ({
+const setFollowPending = (isPending: boolean, userId: number): userActionTypes => ({
     type: USERS_SET_FOLLOW_PENDING,
     payload: {
         isPending,

@@ -4,14 +4,14 @@ const initialState = {
     userId: null as number | null,
     email: null as string | null,
     login: null as string | null,
-    isLoading: false as boolean | null,
-    isAuth: false as boolean | null,
+    isLoading: false,
+    isAuth: false,
     captchaUrl: null as string | null
 }
 
 type stateType = typeof initialState
 
-export const authReducer = (state: stateType = initialState, action: authActionTypes): stateType => {
+export const authReducer = (state = initialState, action: authActionTypes): stateType => {
 
     switch (action.type) {
 

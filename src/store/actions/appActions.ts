@@ -1,8 +1,8 @@
-import { SET_INITIALIZED } from '../types'
+import { appActionTypes, SET_INITIALIZED } from '../types'
 import { getAuthUserData } from './authActions'
 import { dispatchType } from '../store'
 
-const initializeSuccess = () => ({
+const initializeSuccess = (): appActionTypes => ({
     type: SET_INITIALIZED
 })
 

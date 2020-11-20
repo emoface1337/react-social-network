@@ -3,13 +3,12 @@ import {
     PROFILE_ADD_POST,
     PROFILE_SET_USER_IS_LOADING, PROFILE_SET_USER_PHOTO,
     PROFILE_SET_USER_PROFILE,
-    PROFILE_SET_USER_STATUS
+    PROFILE_SET_USER_STATUS, profileActionTypes
 } from '../types'
 import { dispatchType } from '../store'
 
 export const profileActions = {
-
-    addPost: (postText: string) => ({
+    addPost: (postText: string): profileActionTypes => ({
         type: PROFILE_ADD_POST,
         payload: postText
     }),
@@ -40,21 +39,21 @@ export const profileActions = {
     }
 }
 
-const setUserProfile = (profile: object) => ({
+const setUserProfile = (profile: any): profileActionTypes => ({
     type: PROFILE_SET_USER_PROFILE,
     payload: profile
 })
 
-const setUserStatus = (status: string) => ({
+const setUserStatus = (status: string): profileActionTypes => ({
     type: PROFILE_SET_USER_STATUS,
     payload: status
 })
 
-const setUserIsLoading = () => ({
+const setUserIsLoading = (): profileActionTypes => ({
     type: PROFILE_SET_USER_IS_LOADING
 })
 
-const setUserPhoto = (photos: any) => ({
+const setUserPhoto = (photos: any): profileActionTypes => ({
     type: PROFILE_SET_USER_PHOTO,
     payload: photos
 })

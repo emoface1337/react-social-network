@@ -13,13 +13,13 @@ const initialState = {
     pageSize: 12 as number,
     totalUsersCount: 0 as number,
     currentPage: 1 as number,
-    isLoading: false as boolean,
-    isFollowPending: [] as Array<any>
+    isLoading: false,
+    isFollowPending: [] as Array<number>
 }
 
 type stateType = typeof initialState
 
-export const usersReducer = (state: stateType = initialState, action: userActionTypes): stateType => {
+export const usersReducer = (state= initialState, action: userActionTypes): stateType => {
     switch (action.type) {
         case USERS_FOLLOW: {
             return {
