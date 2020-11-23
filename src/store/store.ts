@@ -25,5 +25,6 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, enhancedStore)
 
 export type dispatchType = typeof store.dispatch
+export type RootState = ReturnType<typeof rootReducer>
 
 export default store

@@ -49,7 +49,7 @@ const setIsLoading = (loading: boolean): authActionTypes => ({
     payload: loading
 })
 
-const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean): authActionTypes => ({
+const setAuthUserData = (userId: number | string | null, email: string | null, login: string | null, isAuth: boolean): authActionTypes => ({
     type: SET_USER_DATA,
     payload: {
         isAuth,

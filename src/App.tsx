@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from './store/store'
 
 import { Grid, CssBaseline, Container } from '@material-ui/core'
 
@@ -9,11 +11,10 @@ import Loader from './components/Loader/Loader'
 import { initializeApp } from './store/actions/appActions'
 
 import './App.module.sass'
-import { useDispatch, useSelector } from 'react-redux'
 
 const App = () => {
 
-    const initialized = useSelector(state => state.app.initialized)
+    const initialized = useSelector((state: RootState) => state.app.initialized)
 
     const dispatch = useDispatch()
 

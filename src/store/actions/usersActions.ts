@@ -23,21 +23,21 @@ export const usersActions = {
         dispatch(setUsers(data))
     },
 
-    followUserThunk: (userId: number) => async (dispatch: dispatchType) => {
+    followUserThunk: (userId: number | string) => async (dispatch: dispatchType) => {
         await followUnfollowFlow(dispatch, userId, usersAPI.followUser, followUser)
     },
 
-    unfollowUserThunk: (userId: number) => async (dispatch: dispatchType) => {
+    unfollowUserThunk: (userId: number | string ) => async (dispatch: dispatchType) => {
         await followUnfollowFlow(dispatch, userId, usersAPI.unfollowUser, unfollowUser)
     }
 }
 
-const followUser = (userId: number): userActionTypes => ({
+const followUser = (userId: number | string): userActionTypes => ({
     type: USERS_FOLLOW,
     payload: userId
 })
 
-const unfollowUser = (userId: number): userActionTypes => ({
+const unfollowUser = (userId: number | string): userActionTypes => ({
     type: USERS_UNFOLLOW,
     payload: userId
 })
@@ -51,7 +51,7 @@ const setLoading = (): userActionTypes => ({
     type: USERS_SET_LOADING
 })
 
-const setFollowPending = (isPending: boolean, userId: number): userActionTypes => ({
+const setFollowPending = (isPending: boolean, userId: number | string): userActionTypes => ({
     type: USERS_SET_FOLLOW_PENDING,
     payload: {
         isPending,
@@ -59,7 +59,7 @@ const setFollowPending = (isPending: boolean, userId: number): userActionTypes =
     }
 })
 
-const followUnfollowFlow = async (dispatch: dispatchType, userId: number, apiMethod: any, actionCreator: any) => {
+const followUnfollowFlow = async (dispatch: dispatchType, userId: number | string, apiMethod: any, actionCreator: any) => {
 
     dispatch(setFollowPending(true, userId))
 

@@ -14,7 +14,7 @@ const initialState = {
     totalUsersCount: 0 as number,
     currentPage: 1 as number,
     isLoading: false,
-    isFollowPending: [] as Array<number>
+    isFollowPending: [] as Array<number | string>
 }
 
 type stateType = typeof initialState

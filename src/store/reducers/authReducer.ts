@@ -1,7 +1,7 @@
 import { authActionTypes, SET_IS_LOADING, SET_USER_CAPTCHA, SET_USER_DATA } from "../types";
 
 const initialState = {
-    userId: null as number | null,
+    userId: null as number | string | null,
     email: null as string | null,
     login: null as string | null,
     isLoading: false,

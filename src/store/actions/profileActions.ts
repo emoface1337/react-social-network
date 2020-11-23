@@ -13,13 +13,13 @@ export const profileActions = {
         payload: postText
     }),
 
-    getUserProfile: (userId: number) => async (dispatch: dispatchType) => {
+    getUserProfile: (userId: number | string) => async (dispatch: dispatchType) => {
         dispatch(setUserIsLoading())
         const { data } = await profileAPI.getProfile(userId)
         dispatch(setUserProfile(data))
     },
 
-    getUserStatus: (userId: number) => async (dispatch: dispatchType) => {
+    getUserStatus: (userId: number | string) => async (dispatch: dispatchType) => {
         const { data } = await profileAPI.getStatus(userId)
         dispatch(setUserStatus(data))
     },

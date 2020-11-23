@@ -14,7 +14,7 @@ type SetUserData = {
     type: typeof SET_USER_DATA,
     payload: {
         user: {
-            id: number | null,
+            id: number | string | null,
             email: string | null,
             login: string | null,
 
@@ -49,12 +49,12 @@ export const USERS_SET_FOLLOW_PENDING = 'USERS/SET_FOLLOW_PENDING'
 
 type UserFollow = {
     type: typeof USERS_FOLLOW,
-    payload: number
+    payload: number | string
 }
 
 type UserUnfollow = {
     type: typeof USERS_UNFOLLOW,
-    payload: number
+    payload: number | string
 }
 
 type SetUsers = {
@@ -74,7 +74,7 @@ type SetLoading= {
 type SetFollowPending = {
     payload: {
         isPending: boolean,
-        userId: number
+        userId: number | string
     }
     type: typeof USERS_SET_FOLLOW_PENDING
 }
