@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react'
-import { Route, BrowserRouter, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from './store/store'
+import { RootState } from './ducks'
 
-import { Grid, CssBaseline, Container } from '@material-ui/core'
+import { Container, CssBaseline, Grid } from '@material-ui/core'
 
-import { Header, Login, Home } from './components'
+import { Content, Header, Login } from './components'
 import Loader from './components/Loader/Loader'
 
-import { initializeApp } from './store/actions/appActions'
-
-import './App.module.sass'
+import { initializeApp } from './ducks/app'
 
 const App = () => {
 
@@ -26,18 +24,20 @@ const App = () => {
         return <Loader/>
 
     return (
-        <BrowserRouter>
+        <Router>
             <CssBaseline/>
             <Container maxWidth={'md'}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12}><Header/></Grid>
-                    <Switch>
-                        <Route path='/login' exact component={Login}/>
-                        <Route path='/' component={Home}/>
-                    </Switch>
+                    <Grid item xs={12}>
+                        <Header/>
+                    </Grid>
+                    <Route path='/login' component={Login}/>
+                    {/*<Redirect from="/" to="/profile"/>*/}
+                    <Route path='/' component={Content}/>
+                    {/*<Content/>*/}
                 </Grid>
             </Container>
-        </BrowserRouter>
+        </Router>
     )
 }
 

@@ -2,12 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
-import { createMuiTheme,ThemeProvider } from '@material-ui/core'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 
 import App from './App'
 
-import store from './store/store'
-
+import store from './ducks'
 
 const theme = createMuiTheme({
     palette: {

@@ -13,3 +13,8 @@ type Post = {
     text: string
 }
 
+type UserIdType = number | string
+
+type FollowPendingType = UserIdType
+
+

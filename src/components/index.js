@@ -1,6 +1,6 @@
 import Dialogs from './Dialogs/Dialogs'
 import Header from './Header/Header'
-import Home from './Home/Home'
+import Content from './Content/Content'
 import Loader from './Loader/Loader'
 import Login from './Login/Login'
 import Navbar from './Navbar/Navbar'
@@ -10,7 +10,7 @@ import Users from './Users/Users'
 export {
     Dialogs,
     Header,
-    Home,
+    Content,
     Loader,
     Login,
     Navbar,

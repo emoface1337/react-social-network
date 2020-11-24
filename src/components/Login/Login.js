@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import LoginForm from './LoginForm/LoginForm'
-import { Typography, Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 
-import { authActions } from '../../store/actions'
+import { loginThunk } from '../../ducks/auth'
 
 const Login = () => {
 
@@ -13,8 +13,8 @@ const Login = () => {
 
     const dispatch = useDispatch()
 
-    const onLogin = values => {
-        dispatch(authActions.login(values.email, values.password, values.rememberMe, values.captcha))
+    const onLogin = (values) => {
+        dispatch(loginThunk(values.email, values.password, values.rememberMe, values.captcha))
     }
 
     if (isAuth) {
