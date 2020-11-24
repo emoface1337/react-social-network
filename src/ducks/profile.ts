@@ -1,93 +1,60 @@
 import { Dispatch } from 'redux'
 import { ResultCodeEnums } from '../api/api'
 import { getProfile, GetProfileResponseType, getStatus, PhotoType, updateStatus, updateUserPhoto } from '../api/profile'
+import { InferActionsTypes } from './index'
 
-export const ADD_POST = 'PROFILE/ADD_POST'
-export const SET_USER_PROFILE = 'PROFILE/SET_USER_PROFILE'
-export const SET_USER_STATUS = 'PROFILE/SET_USER_STATUS'
-export const UPDATE_USER_STATUS = 'PROFILE/UPDATE_USER_STATUS'
-export const SET_USER_IS_LOADING = 'PROFILE/SET_USER_IS_LOADING'
-export const SET_USER_PHOTO = 'PROFILE/SET_USER_PHOTO'
+export const profileActions = {
 
-type AddPost = {
-    type: typeof ADD_POST,
-    payload: string
+    setUserProfile: (profile: GetProfileResponseType) => ({
+        type: 'SET_USER_PROFILE',
+        payload: profile
+    } as const),
+
+    setUserStatus: (status: string) => ({
+        type: 'SET_USER_STATUS',
+        payload: status
+    } as const),
+
+    setUserIsLoading: () => ({
+        type: 'SET_USER_IS_LOADING'
+    } as const),
+
+    setUserPhoto: (photos: PhotoType) => ({
+        type: 'SET_USER_PHOTO',
+        payload: photos
+    } as const),
+
+    addPost: (postText: string) => ({
+        type: 'ADD_POST',
+        payload: postText
+    } as const)
+
 }
-
-type SetUserProfile = {
-    type: typeof SET_USER_PROFILE,
-    payload: GetProfileResponseType
-}
-
-type SetUserStatus = {
-    type: typeof SET_USER_STATUS,
-    payload: string
-}
-
-type UpdateUserStatus = {
-    type: typeof UPDATE_USER_STATUS,
-    payload: string
-}
-
-type SetUserIsLoading = {
-    type: typeof SET_USER_IS_LOADING
-}
-
-type SetUserPhoto = {
-    type: typeof SET_USER_PHOTO
-    payload: PhotoType
-}
-
-type ProfileActionTypes = AddPost | SetUserProfile | SetUserStatus | UpdateUserStatus | SetUserIsLoading | SetUserPhoto
-
-export const addPost = (postText: string): ProfileActionTypes => ({
-    type: ADD_POST,
-    payload: postText
-})
 
 export const getUserProfile = (userId: UserIdType) => async (dispatch: Dispatch<ProfileActionTypes>) => {
-    dispatch(setUserIsLoading())
+    dispatch(profileActions.setUserIsLoading())
     const { data } = await getProfile(userId)
-    dispatch(setUserProfile(data))
+    dispatch(profileActions.setUserProfile(data))
 }
 
 export const getUserStatus = (userId: UserIdType) => async (dispatch: Dispatch<ProfileActionTypes>) => {
     const { data } = await getStatus(userId)
-    dispatch(setUserStatus(data))
+    dispatch(profileActions.setUserStatus(data))
 }
 
 export const updateUserStatus = (newStatus: string) => async (dispatch: Dispatch<ProfileActionTypes>) => {
     const { data } = await updateStatus(newStatus)
     if (data.resultCode === ResultCodeEnums.Success) {
-        dispatch(setUserStatus(newStatus))
+        dispatch(profileActions.setUserStatus(newStatus))
     }
 }
 
 export const updateUserPhotoThunk = (photo: File) => async (dispatch: Dispatch<ProfileActionTypes>) => {
     const { data } = await updateUserPhoto(photo)
     if (data.resultCode === ResultCodeEnums.Success) {
-        dispatch(setUserPhoto(data.data.photos))
+        dispatch(profileActions.setUserPhoto(data.data.photos))
     }
 }
-
-const setUserProfile = (profile: GetProfileResponseType): ProfileActionTypes => ({
-    type: SET_USER_PROFILE,
-    payload: profile
-})
-
-const setUserStatus = (status: string): ProfileActionTypes => ({
-    type: SET_USER_STATUS,
-    payload: status
-})
-
-const setUserIsLoading = (): ProfileActionTypes => ({
-    type: SET_USER_IS_LOADING
-})
-
-const setUserPhoto = (photos: PhotoType): ProfileActionTypes => ({
-    type: SET_USER_PHOTO,
-    payload: photos
-})
 
 const initialState = {
     profile: null as GetProfileResponseType | null,
@@ -100,10 +67,11 @@ const initialState = {
 }
 
 type StateType = typeof initialState
+type ProfileActionTypes = InferActionsTypes<typeof profileActions>
 
 export const profileReducer = (state = initialState, action: ProfileActionTypes): StateType => {
     switch (action.type) {
-        case ADD_POST: {
+        case 'ADD_POST': {
             const newPost = {
                 id: Date.now(),
                 text: action.payload
@@ -114,7 +82,7 @@ export const profileReducer = (state = initialState, action: ProfileActionTypes)
             }
         }
 
-        case SET_USER_PROFILE: {
+        case 'SET_USER_PROFILE': {
             return {
                 ...state,
                 profile: action.payload,
@@ -122,21 +90,21 @@ export const profileReducer = (state = initialState, action: ProfileActionTypes)
             }
         }
 
-        case SET_USER_STATUS : {
+        case 'SET_USER_STATUS' : {
             return {
                 ...state,
                 status: action.payload
             }
         }
 
-        case SET_USER_IS_LOADING: {
+        case 'SET_USER_IS_LOADING': {
             return {
                 ...state,
                 isLoading: true
             }
         }
 
-        case SET_USER_PHOTO: {
+        case 'SET_USER_PHOTO': {
             return {
                 ...state,
                 profile: { ...state.profile, photos: action.payload } as GetProfileResponseType

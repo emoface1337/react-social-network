@@ -8,7 +8,7 @@ import DialogMessage from './DialogMessage/DialogMessage'
 import { Box, Grid, List, makeStyles } from '@material-ui/core'
 
 import { RootState } from '../../ducks'
-import { sendMessage } from '../../ducks/dialogs'
+import { dialogsActions} from '../../ducks/dialogs'
 
 const useStyles = makeStyles(theme => ({
     dialogs: {
@@ -26,6 +26,8 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column'
     }
 }))
+
+const { sendMessage } = dialogsActions
 
 const Dialogs = () => {
 

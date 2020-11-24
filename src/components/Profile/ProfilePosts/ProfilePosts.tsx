@@ -7,7 +7,7 @@ import { SuccessButton } from '../../../custom-components/SuccessButton'
 import Post from './Post/Post'
 
 import { RootState } from '../../../ducks'
-import { addPost } from '../../../ducks/profile'
+import { profileActions } from '../../../ducks/profile'
 
 const useStyles = makeStyles(() => ({
     profileAddPostTextArea: {
@@ -16,6 +16,8 @@ const useStyles = makeStyles(() => ({
     },
     profilePosts: {}
 }))
+
+const { addPost } = profileActions
 
 const ProfilePosts = () => {
 

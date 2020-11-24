@@ -1,21 +1,16 @@
 import { getAuthUserDataThunk } from './auth'
+import { InferActionsTypes } from './index'
 
-const SET_INITIALIZED = 'APP/SET_INITIALIZED'
-
-type SetInitialized = {
-    type: typeof SET_INITIALIZED
+export const appActions = {
+    initializeSuccess: () => ({
+        type: 'SET_INITIALIZED'
+    } as const)
 }
-
-type AppActionTypes = SetInitialized
-
-const initializeSuccess = (): AppActionTypes => ({
-    type: SET_INITIALIZED
-})
 
 export const initializeApp = () => (dispatch: any) => {
     Promise.all([dispatch(getAuthUserDataThunk())])
         .then(() => {
-            dispatch(initializeSuccess())
+            dispatch(appActions.initializeSuccess())
         })
 }
 
@@ -25,11 +20,12 @@ const initialState = {
 
 type StateType = typeof initialState
 
+type AppActionTypes = InferActionsTypes<typeof appActions>
+
 export const appReducer = (state = initialState, action: AppActionTypes): StateType => {
 
     switch (action.type) {
-
-        case SET_INITIALIZED: {
+        case 'SET_INITIALIZED': {
             return {
                 ...state,
                 initialized: true
