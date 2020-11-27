@@ -1,11 +1,11 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { RootState } from '../../ducks'
 
 import { Dialogs, Navbar, Profile, Users } from '../'
 
 import { Box, Grid, makeStyles, Theme } from '@material-ui/core'
-import { RootState } from '../../ducks'
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {

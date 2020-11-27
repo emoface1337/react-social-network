@@ -31,8 +31,10 @@ const ProfilePosts = () => {
 
     const onAddPost = () => {
         const postText = newPostTextArea.current!.value
-        if (postText !== '')
+        if (postText !== '') {
             dispatch(addPost(newPostTextArea.current!.value))
+            newPostTextArea.current!.value = ''
+        }
     }
 
     return (

@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { ResultCodeEnums } from '../api/api'
+import { ResultCodeEnum } from '../api/api'
 import { getUsers, GetUsersResponseType, UserType } from '../api/users'
 import { InferActionsTypes } from './index'
 
@@ -52,7 +52,7 @@ const followUnfollowFlow = async (dispatch: Dispatch<UserActionTypes>, userId: U
     dispatch(usersActions.setFollowPending(true, userId))
 
     const { data } = await apiMethod(userId)
-    if (data.resultCode === ResultCodeEnums.Success) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(actionCreator(userId))
         dispatch(usersActions.setFollowPending(false, userId))
     }

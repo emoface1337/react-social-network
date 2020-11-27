@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux'
 import { stopSubmit } from 'redux-form'
 
-import { ResultCodeEnums, ResultCodeForCaptcha } from '../api/api'
+import { ResultCodeEnum, ResultCodeForCaptchaEnum } from '../api/api'
 import { getCaptchaUrl, isAuthorized, login, logout } from '../api/auth'
 import { InferActionsTypes } from './index'
 
@@ -25,11 +25,11 @@ const authActions = {
     } as const)
 }
 
-export const loginThunk = (email: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: any) => {
+export const loginThunk = (email: string, password: string, rememberMe: boolean, captcha: string | null) => async (dispatch: any) => {
     const { data } = await login(email, password, rememberMe, captcha)
-    if (data.resultCode === ResultCodeEnums.Success) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         await dispatch(getAuthUserDataThunk())
-    } else if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
+    } else if (data.resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired) {
         await dispatch(getCaptchaUrlThunk())
     } else {
         const stopSubmitAction = stopSubmit('login', { _error: data.messages })
@@ -39,7 +39,7 @@ export const loginThunk = (email: string, password: string, rememberMe: boolean,
 
 export const logoutThunk = () => async (dispatch: Dispatch<AuthActionTypes>) => {
     const { data } = await logout()
-    if (data.resultCode === ResultCodeEnums.Success) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(authActions.setAuthUserData(null, null, null, false))
     }
 }
@@ -50,7 +50,7 @@ export const getAuthUserDataThunk = () => async (dispatch: Dispatch<AuthActionTy
 
     const { data } = await isAuthorized()
 
-    if (data.resultCode === ResultCodeEnums.Success) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         const { id, email, login } = data.data
         dispatch(authActions.setAuthUserData(id, email, login, true))
         dispatch(authActions.setIsLoading(false))

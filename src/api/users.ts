@@ -1,4 +1,4 @@
-import { instance, ResultCodeEnums } from './api'
+import { instance, ResultCodeEnum } from './api'
 import { PhotoType } from './profile'
 
 export type UserType = {
@@ -17,7 +17,7 @@ export type GetUsersResponseType = {
 
 type SubscribeUserResponseType = {
     data: object,
-    resultCode: ResultCodeEnums
+    resultCode: ResultCodeEnum
     messages: Array<string>
 }
 

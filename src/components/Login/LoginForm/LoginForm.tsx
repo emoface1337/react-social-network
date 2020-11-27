@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, FormErrors, InjectedFormProps, reduxForm, WrappedFieldProps } from 'redux-form'
 
 import { Box, Checkbox, FormControlLabel, makeStyles, TextField } from '@material-ui/core'
 import { SuccessButton } from '../../../custom-components/SuccessButton'
@@ -21,23 +21,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const validate = values => {
-    const errors = {}
-    const requiredFields = [
-        'email',
-        'password',
-        'captcha'
-    ]
-    requiredFields.forEach(field => {
-        if (!values[field]) {
-            errors[field] = 'Обязательное поле'
-        }
-    })
+const validate = (values: FormValuesProps): FormErrors<FormValuesProps> => {
+    const errors: FormErrors<FormValuesProps> = {}
+
+    if (!values.email) {
+        errors.email = 'Обязательное поле'
+    }
+
+    if (!values.password) {
+        errors.password = 'Обязательное поле'
+    }
+
+    if (!values.captcha) {
+        errors.captcha = 'Обязательное поле'
+    }
 
     return errors
 }
 
-const renderTextField = ({ label, input, meta: { touched, invalid, error } }) => (
+
+const renderTextField: React.FC<WrappedFieldProps & { label: string }> = ({ label, input, meta: { touched, invalid, error } }) => (
     <TextField
         label={label}
         error={touched && invalid}
@@ -48,7 +51,7 @@ const renderTextField = ({ label, input, meta: { touched, invalid, error } }) =>
     />
 )
 
-const renderPasswordField = ({ label, input, meta: { touched, invalid, error } }) =>
+const renderPasswordField: React.FC<WrappedFieldProps & { label: string }> = ({ label, input, meta: { touched, invalid, error } }) =>
     (
         <TextField
             label={label}
@@ -61,7 +64,7 @@ const renderPasswordField = ({ label, input, meta: { touched, invalid, error } }
         />
     )
 
-const renderCheckbox = ({ input, label }) => (
+const renderCheckbox: React.FC<WrappedFieldProps & { label: string }> = ({ input, label }) => (
     <div>
         <FormControlLabel
             control={
@@ -75,7 +78,18 @@ const renderCheckbox = ({ input, label }) => (
     </div>
 )
 
-const LoginForm = props => {
+type FormValuesProps = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
+}
+
+type LoginFormProps = {
+    captchaUrl: string | null
+}
+
+const LoginForm: React.FC<InjectedFormProps<FormValuesProps, LoginFormProps> & LoginFormProps> = (props) => {
 
     const { handleSubmit, pristine, submitting, error, captchaUrl } = props
 
@@ -102,7 +116,7 @@ const LoginForm = props => {
     )
 }
 
-export default reduxForm({
+export default reduxForm<FormValuesProps, LoginFormProps>({
     form: 'login',
     validate
 })(LoginForm)

@@ -8,11 +8,11 @@ export const instance = axios.create({
     }
 })
 
-export enum ResultCodeEnums {
+export enum ResultCodeEnum {
     Success = 0,
     Error = 1
 }
 
-export enum ResultCodeForCaptcha {
+export enum ResultCodeForCaptchaEnum {
     CaptchaIsRequired = 10
 }

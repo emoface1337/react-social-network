@@ -1,4 +1,4 @@
-import { instance, ResultCodeEnums } from './api'
+import { instance, ResultCodeEnum } from './api'
 
 export type PhotoType = {
     small: string | null
@@ -34,7 +34,7 @@ export const getStatus = (userId: UserIdType) => {
 
 type UpdateStatusResponseType = {
     data: object
-    resultCode: ResultCodeEnums
+    resultCode: ResultCodeEnum
     messages: Array<string>
 }
 
@@ -46,7 +46,7 @@ type UpdateUserPhotoResponseType = {
     data: {
         photos: PhotoType
     }
-    resultCode: ResultCodeEnums
+    resultCode: ResultCodeEnum
     messages: Array<string>
 }
 

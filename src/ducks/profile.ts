@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { ResultCodeEnums } from '../api/api'
+import { ResultCodeEnum } from '../api/api'
 import { getProfile, GetProfileResponseType, getStatus, PhotoType, updateStatus, updateUserPhoto } from '../api/profile'
 import { InferActionsTypes } from './index'
 
@@ -44,14 +44,14 @@ export const getUserStatus = (userId: UserIdType) => async (dispatch: Dispatch<P
 
 export const updateUserStatus = (newStatus: string) => async (dispatch: Dispatch<ProfileActionTypes>) => {
     const { data } = await updateStatus(newStatus)
-    if (data.resultCode === ResultCodeEnums.Success) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(profileActions.setUserStatus(newStatus))
     }
 }
 
 export const updateUserPhotoThunk = (photo: File) => async (dispatch: Dispatch<ProfileActionTypes>) => {
     const { data } = await updateUserPhoto(photo)
-    if (data.resultCode === ResultCodeEnums.Success) {
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(profileActions.setUserPhoto(data.data.photos))
     }
 }
