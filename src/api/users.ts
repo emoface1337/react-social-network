@@ -21,8 +21,10 @@ type SubscribeUserResponseType = {
     messages: Array<string>
 }
 
-export const getUsers = (currentPage = 1, pageSize = 12) => {
-    return instance.get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
+export const getUsers = (currentPage = 1, pageSize = 12, filter: { term: string, friend: boolean }) => {
+    return instance.get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`
+    + (filter.term !== '' ? `&term=${filter.term}` : '')
+    + (filter.friend ? `&friend=true` : ''))
 }
 
 export const followUser = (userId: UserIdType) => {

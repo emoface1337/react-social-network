@@ -30,12 +30,20 @@ export const usersActions = {
             isPending,
             userId
         }
+    } as const),
+
+    setFilter: (term: string) => ({
+        type: 'SET_FILTER',
+        payload: {
+            term
+        }
     } as const)
+
 }
 
-export const fetchUsers = (currentPage: number, pageSize: number) => async (dispatch: Dispatch<UserActionTypes>) => {
+export const fetchUsers = (currentPage: number, pageSize: number, filter: { term: string; friend: boolean }) => async (dispatch: Dispatch<UserActionTypes>) => {
     dispatch(usersActions.setLoading())
-    const { data } = await getUsers(currentPage, pageSize)
+    const { data } = await getUsers(currentPage, pageSize, filter)
     dispatch(usersActions.setUsers(data))
 }
 
@@ -63,7 +71,11 @@ const initialState = {
     pageSize: 12 as number,
     totalUsersCount: 0 as number,
     isLoading: false,
-    isFollowPending: [] as Array<UserIdType>
+    isFollowPending: [] as Array<UserIdType>,
+    filter: {
+        term: ''
+    },
+    currentPage: 1 as number
 }
 
 type StateType = typeof initialState
@@ -118,6 +130,13 @@ export const usersReducer = (state = initialState, action: UserActionTypes): Sta
                 isFollowPending: action.payload.isPending
                     ? [...state.isFollowPending, action.payload.userId]
                     : state.isFollowPending.filter(id => id !== action.payload.userId)
+            }
+        }
+
+        case 'SET_FILTER': {
+            return {
+                ...state,
+                filter: action.payload
             }
         }
 
