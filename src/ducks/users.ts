@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import { ResultCodeEnum } from '../api/api'
-import { getUsers, GetUsersResponseType, UserType } from '../api/users'
+import { followUser, getUsers, GetUsersResponseType, unfollowUser, UserType } from '../api/users'
 import { InferActionsTypes } from './index'
 
 export const usersActions = {
@@ -48,11 +48,11 @@ export const fetchUsers = (currentPage: number, pageSize: number, filter: { term
 }
 
 export const followUserThunk = (userId: UserIdType) => async (dispatch: Dispatch<UserActionTypes>) => {
-    await followUnfollowFlow(dispatch, userId, usersActions.followUser, usersActions.followUser)
+    await followUnfollowFlow(dispatch, userId, followUser, usersActions.followUser)
 }
 
 export const unfollowUserThunk = (userId: UserIdType) => async (dispatch: Dispatch<UserActionTypes>) => {
-    await followUnfollowFlow(dispatch, userId, usersActions.unfollowUser, usersActions.unfollowUser)
+    await followUnfollowFlow(dispatch, userId, unfollowUser, usersActions.unfollowUser)
 }
 
 const followUnfollowFlow = async (dispatch: Dispatch<UserActionTypes>, userId: UserIdType, apiMethod: any, actionCreator: (userId: UserIdType) => UserActionTypes) => {
@@ -60,6 +60,7 @@ const followUnfollowFlow = async (dispatch: Dispatch<UserActionTypes>, userId: U
     dispatch(usersActions.setFollowPending(true, userId))
 
     const { data } = await apiMethod(userId)
+
     if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(actionCreator(userId))
         dispatch(usersActions.setFollowPending(false, userId))
