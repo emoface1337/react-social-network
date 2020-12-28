@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Pagination from '@material-ui/lab/Pagination'
-import { Box, Grid, makeStyles } from '@material-ui/core'
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core'
 
 import Loader from '../Loader/Loader'
 
@@ -92,7 +92,13 @@ const Users = () => {
                 <UsersSearchForm handleSubmit={handleUsersSearchFormSubmit}/>
             </Box>
             <Box style={{ display: 'flex', justifyContent: 'center', marginBottom: '25px' }}>
-                <Pagination variant="outlined" count={pagesCount} page={currentPageNum} onChange={handleChange}/>
+                {
+                    users.length !== 0
+                        ? <Pagination variant="outlined" count={pagesCount} page={currentPageNum}
+                                      onChange={handleChange}/>
+                        : <Typography variant="h6">Не найдено :(</Typography>
+
+                }
             </Box>
             {
                 isLoading
